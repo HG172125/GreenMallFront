@@ -64,7 +64,7 @@
                         <el-form ref="form" label-width="80px" size="mini"
                                  style="border:1px solid #C4E1C5;padding:20px;">
                         <el-form-item label="用户名">
-                           <el-input v-model="user.name"></el-input>
+                           <el-input v-model="user.username"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
                          <el-input type="password" v-model="user.password"></el-input>
@@ -143,7 +143,7 @@ export default {//暴露当前组件
     },
 
     saveUser() {
-      if (this.user.name == null || this.user.password == null || this.checkPassWord == null) {
+      if (this.user.username == null || this.user.password == null || this.checkPassWord == null) {
         this.$confirm('用户名或密码不能为空', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -156,23 +156,26 @@ export default {//暴露当前组件
           type: 'warning'
         })
       } else {
-        console.log(this.user)
-        this.$http.get('http://localhost:8080/user/add', {
-          params: {
-            name: this.user.name,
-            pass: this.user.password,
+        //  --------------------------------------------------------------------------
+        //添加用户执行
+        this.$http.post("http://localhost:8080/user/add", this.user).then(res => {
+          console.log(res.data)
+          if (res.data == true) {
+            this.$message({
+              type: 'success',
+              message: '注册成功!'
+            });
+            this.dialogVisible2 = false;
+
+          } else {
+            this.$message({
+              type: 'error',
+              message: '用户名重复!'
+            });
           }
-        }).then(res => {
-          console.log(res.data);
         })
-        // this.$http.get("http://localhost:8080/user", this.user).then(res => {
-        //   console.log(res);
-        //   if (res.data.user != null) {
-        //     //切换路由
-        //     this.$router.push("/test")
-        //   }
-        // })
       }
+      //  --------------------------------------------------------------------------
 
     },
 
