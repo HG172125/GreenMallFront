@@ -27,22 +27,30 @@
     <!--      第二行布局-->
     <el-row style="color: aquamarine;background-color:red;height: 100px" :gutter="20">
       <el-col :span="4">
-        <div class="grid-content bg-purple">2</div>
+        <div class="grid-content bg-purple">5</div>
+      </el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple-light">
+          6
+        </div>
+      </el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple">1</div>
       </el-col>
       <el-col :span="4">
         <div class="grid-content bg-purple-light">2</div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple">2</div>
+        <div class="grid-content bg-purple">3</div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple-light">2</div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple">2</div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple-light">2</div>
+        <div class="grid-content bg-purple-light">
+          <div style="margin-top: 20px">
+            <el-avatar :size="medium" icon="el-icon-user-solid">
+            </el-avatar>
+          </div>
+
+        </div>
       </el-col>
     </el-row>
     <div style="display: flex;justify-content:center">

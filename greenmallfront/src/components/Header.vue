@@ -122,6 +122,9 @@
 </template>
 
 <script>
+//引入 js—cookies
+import cookies from "js-cookie"
+
 export default {//暴露当前组件
   data() {
     return {
