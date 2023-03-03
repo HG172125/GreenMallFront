@@ -37,14 +37,20 @@
                 :visible.sync="dialogVisible1"
                 width="30%"
                 :before-close="handleClose">
-                <span>请输入用户名密码</span>
                 <span slot="footer" class="dialog-footer">
-
-                   <div>
+                   <div style="margin-bottom: 20px">
+                      <el-form ref="form" label-width="80px" size="mini" style="border:1px solid #C4E1C5;padding:20px;">
+                        <el-form-item label="用户名">
+                           <el-input v-model="user.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码">
+                         <el-input type="password" v-model="user.password"></el-input>
+                        </el-form-item>
+                      </el-form>
                    </div>
 
                    <el-button @click="dialogVisible1 = false">取 消</el-button>
-                   <el-button type="primary" @click="userDelu">登录</el-button>
+                   <el-button type="primary" @click="">登录</el-button>
                    </span>
               </el-dialog>
               <!--注册提示框-->
@@ -53,13 +59,23 @@
                 :visible.sync="dialogVisible2"
                 width="30%"
                 :before-close="handleClose">
-                <span>注册用户</span>
                 <span slot="footer" class="dialog-footer">
-                    <div>
-
+                    <div style="margin-bottom: 20px">
+                        <el-form ref="form" label-width="80px" size="mini"
+                                 style="border:1px solid #C4E1C5;padding:20px;">
+                        <el-form-item label="用户名">
+                           <el-input v-model="user.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码">
+                         <el-input type="password" v-model="user.password"></el-input>
+                        </el-form-item>
+                          <el-form-item label="重复密码">
+                         <el-input type="password" v-model="checkPassWord"></el-input>
+                        </el-form-item>
+                      </el-form>
                     </div>
                    <el-button @click="dialogVisible2 = false">取 消</el-button>
-                   <el-button type="primary" @click="dialogVisible2 = false">注 册</el-button>
+                   <el-button type="primary" @click="saveUser">注 册</el-button>
                    </span>
               </el-dialog>
             </div>
@@ -117,6 +133,7 @@ export default {//暴露当前组件
 
       //  登录表单
       user: {},
+      checkPassWord: '',
     };
 
   },
@@ -124,6 +141,27 @@ export default {//暴露当前组件
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+
+    saveUser() {
+      console.log(this.user);
+      if (this.user.name == null || this.user.password == null || this.checkPassWord == null) {
+        this.$confirm('用户名或密码不能为空', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else if (this.checkPassWord != this.user.password) {
+        this.$confirm('密码不一致', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+
+      }
+
+    },
+
 
     //登录注册确认关闭
     handleClose(done) {
@@ -134,21 +172,41 @@ export default {//暴露当前组件
         .catch(_ => {
         });
     },
-
-    userDelu() {
-      console.log(this.user);
-      // 发送axios请求
-      this.$http.get("http://localhost:8080/user", this.user).then(res => {
-        console.log(res);
-        if (res.data.user != null) {
-          //切换路由
-          this.$router.push("/test")
-        }
-      })
+    open() {
+      this.$confirm('密码不一致', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     }
-
+  },
+  // 注册
+  UserZhuCe() {
+    console.log(this.user);
+    // 发送axios请求
+    this.$http.get("http://localhost:8080/user", this.user).then(res => {
+      console.log(res);
+      if (res.data.user != null) {
+        //切换路由
+        this.$router.push("/test")
+      }
+    })
+  },
+  //登录
+  userDelu() {
 
   }
+
 }
 </script>
 
