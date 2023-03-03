@@ -143,7 +143,6 @@ export default {//暴露当前组件
     },
 
     saveUser() {
-      console.log(this.user);
       if (this.user.name == null || this.user.password == null || this.checkPassWord == null) {
         this.$confirm('用户名或密码不能为空', '提示', {
           confirmButtonText: '确定',
@@ -157,7 +156,22 @@ export default {//暴露当前组件
           type: 'warning'
         })
       } else {
-
+        console.log(this.user)
+        this.$http.get('http://localhost:8080/user/add', {
+          params: {
+            name: this.user.name,
+            pass: this.user.password,
+          }
+        }).then(res => {
+          console.log(res.data);
+        })
+        // this.$http.get("http://localhost:8080/user", this.user).then(res => {
+        //   console.log(res);
+        //   if (res.data.user != null) {
+        //     //切换路由
+        //     this.$router.push("/test")
+        //   }
+        // })
       }
 
     },
