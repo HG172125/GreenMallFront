@@ -3,6 +3,7 @@ import Router from 'vue-router'
 //引入Index路由
 import Index from '../components/Index'
 import Test from "../components/Test";
+import UserMain from "../components/user/UserMain";
 
 Vue.use(Router)
 
@@ -10,7 +11,8 @@ export default new Router({
   routes: [
     {path: '/', redirect: "/index"},
     {path: '/index', component: Index},
-    {path: '/test', component: Test}
+    {path: '/test', component: Test},
+    {path: '/user', component: UserMain},
 
   ]
 })

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <a href="#/test">test</a>
+    <div>
+      <a href="#/test">test</a>
+      <a href="#/user">usermain</a>
+    </div>
 
 
     <router-view/>
