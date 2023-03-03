@@ -48,6 +48,7 @@
           <div style="margin-top: 20px">
             <el-avatar :size="medium" icon="el-icon-user-solid">
             </el-avatar>
+
           </div>
 
         </div>

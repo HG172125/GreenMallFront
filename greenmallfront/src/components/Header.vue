@@ -40,17 +40,17 @@
                 <span slot="footer" class="dialog-footer">
                    <div style="margin-bottom: 20px">
                       <el-form ref="form" label-width="80px" size="mini" style="border:1px solid #C4E1C5;padding:20px;">
-                        <el-form-item label="用户名">
-                           <el-input v-model="user.name"></el-input>
+                        <el-form-item label="账号">
+                           <el-input v-model="dl.username" placeholder="用户名或手机号"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
-                         <el-input type="password" v-model="user.password"></el-input>
+                         <el-input type="password" v-model="dl.password" placeholder="输入密码"></el-input>
                         </el-form-item>
                       </el-form>
                    </div>
 
                    <el-button @click="dialogVisible1 = false">取 消</el-button>
-                   <el-button type="primary" @click="">登录</el-button>
+                   <el-button type="primary" @click="login">登录</el-button>
                    </span>
               </el-dialog>
               <!--注册提示框-->
@@ -134,9 +134,10 @@ export default {//暴露当前组件
       dialogVisible1: false,
       dialogVisible2: false,
 
-      //  登录表单
+      //注册
       user: {},
       checkPassWord: '',
+      dl: {},
     };
 
   },
@@ -144,7 +145,48 @@ export default {//暴露当前组件
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    /**
+     * 用户登录方法
+     */
+    login() {
+      if (this.dl.username == null || this.dl.password == null) {
+        this.$confirm('用户名或密码不能为空', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+        this.$http.post("http://localhost:8080/user/login", this.dl).then(res => {
+          console.log(res)
+          if (res.data == "1") {
+            this.$confirm('用户名不存在', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            })
+          } else if (res.data == "2") {
+            this.$confirm('密码错误！！', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            })
+          } else if (res.data == "3") {
+            cookies.set("username", this.dl.username)
+            this.$router.push("/user")
+            this.$message({
+              type: 'success',
+              message: '登录成功!'
+            });
+          }
 
+        });
+      }
+
+    },
+
+    /**
+     *注册用户方法
+     */
     saveUser() {
       if (this.user.username == null || this.user.password == null || this.checkPassWord == null) {
         this.$confirm('用户名或密码不能为空', '提示', {
