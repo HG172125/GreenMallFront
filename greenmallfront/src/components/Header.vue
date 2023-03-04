@@ -1,5 +1,5 @@
 <template>
-  <div style="background-image: -moz-element()">
+  <div style="">
     <!--第一行布局-->
     <el-row style="color: white;background-color: blue" :gutter="20">
       <el-col :span="4">

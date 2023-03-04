@@ -1,12 +1,83 @@
 <template>
-  <div style="width: 1500px;height: auto;background-color: aqua;margin: auto">
+  <div style="width: 1500px;height: auto;background-color: #FFFFFF;margin: auto">
     <el-container>
       <!--      侧边栏-->
-      <el-aside style="background-color: antiquewhite;height: 500px;width: 250px">Aside</el-aside>
+      <el-aside style="background-color: #FFFFFF;height: 500px;width: 250px">
+        <!--       侧边导航栏-->
+
+        <el-menu
+          style="background-color: #DCDFE6;margin-top: 40px"
+          default-active="2"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose">
+          <el-submenu
+            index="1">
+            <template slot="title">
+              <i class="el-icon-more"></i>
+              <span>蔬菜</span>
+            </template>
+            <el-submenu index="1-1">
+              <template slot="title">叶类</template>
+              <el-menu-item index="1-1-1">白菜</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+          <el-submenu
+            index="2">
+            <template slot="title">
+              <i class="el-icon-more"></i>
+              <span>瓜果</span>
+            </template>
+            <el-submenu index="2-1">
+              <template slot="title">叶类</template>
+              <el-menu-item index="2-1-1">白菜</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+          <el-submenu
+            index="3">
+            <template slot="title">
+              <i class="el-icon-more"></i>
+              <span>肉类/禽类</span>
+            </template>
+            <el-submenu index="3-1">
+              <template slot="title">叶类</template>
+              <el-menu-item index="3-1-1">白菜</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+          <el-submenu
+            index="4">
+            <template slot="title">
+              <i class="el-icon-more"></i>
+              <span>水产品</span>
+            </template>
+            <el-submenu index="4-1">
+              <template slot="title">叶类</template>
+              <el-menu-item index="4-1-1">白菜</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+          <el-submenu
+            index="5">
+            <template slot="title">
+              <i class="el-icon-more"></i>
+              <span>种子/苗木</span>
+            </template>
+            <el-submenu index="1-1">
+              <template slot="title">叶类</template>
+              <el-menu-item index="1-1-1">白菜</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+        </el-menu>
+
+
+      </el-aside>
       <el-main>
         <!--        轮播图-->
         <div>
-          <el-carousel style="background-color: red;height: 400px">
+          <el-carousel style="background-color: #FFFFFF;height: 400px">
             <el-carousel-item
               style="height: auto"
               v-for="(item,index) in imgs" :key="index">
