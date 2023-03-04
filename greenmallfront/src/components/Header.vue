@@ -196,6 +196,8 @@ export default {//暴露当前组件
                 username: this.dl.name
               }
             })
+            sessionStorage.setItem('username', this.dl.username)
+            console.log(sessionStorage.getItem('username'))
             this.$message({
               type: 'success',
               message: '登录成功!'

@@ -2,32 +2,42 @@
 
   <div>
     <h1>这里是test</h1>
-    <template>
-      <el-row class="demo-avatar demo-basic">
-        <el-col :span="12">
-          <div class="sub-title">circle</div>
-          <div class="demo-basic--circle">
-            <div class="block">
-              <el-avatar :size="50" :src="circleUrl"></el-avatar>
-            </div>
-            <div class="block" v-for="size in sizeList" :key="size">
-              <el-avatar :size="size" :src="circleUrl"></el-avatar>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="sub-title">square</div>
-          <div class="demo-basic--circle">
-            <div class="block">
-              <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
-            </div>
-            <div class="block" v-for="size in sizeList" :key="size">
-              <el-avatar shape="square" :size="size" :src="squareUrl"></el-avatar>
-            </div>
-          </div>
-        </el-col>
-      </el-row>
-    </template>
+
+    <el-menu :collapse="isCollapse">
+
+      <el-menu-item index="2">
+        <i class="el-icon-menu"></i>
+        <span slot="title">导航二</span>
+      </el-menu-item>
+
+      <el-submenu index="1">
+        <el-menu-item-group>
+          <span slot="title">分组一</span>
+          <el-menu-item index="1-1">选项1</el-menu-item>
+          <el-menu-item index="1-2">选项2</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="分组2">
+          <el-menu-item index="1-3">选项3</el-menu-item>
+        </el-menu-item-group>
+
+        <el-submenu index="1-4">
+          <span slot="title">选项4</span>
+          <el-menu-item index="1-4-1">选项1</el-menu-item>
+        </el-submenu>
+
+      </el-submenu>
+
+
+      <el-menu-item index="2">
+        <i class="el-icon-menu"></i>
+        <span slot="title">导航二</span>
+      </el-menu-item>
+      <el-menu-item index="3" disabled>
+        <i class="el-icon-document"></i>
+        <span slot="title">导航三</span>
+      </el-menu-item>
+
+    </el-menu>
   </div>
 
 
@@ -39,17 +49,24 @@ export default {
 
   data() {
     return {
-      circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-      sizeList: ["large", "medium", "small"]
-    }
+      isCollapse: true
+    };
   },
-  methods: {}
-
-
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  }
 }
 </script>
 
-<style scoped>
-
+<style>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
 </style>
+

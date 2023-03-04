@@ -43,7 +43,7 @@
           style="margin-top: 20px"
           class="grid-content bg-purple-light">
           <!--          搜索框-->
-          <el-input v-model="selectGoods" placeholder="请输入内容"></el-input>
+          <el-input placeholder="请输入内容"></el-input>
         </div>
       </el-col>
       <el-col :span="4">
@@ -57,8 +57,12 @@
       <el-col :span="4">
         <div class="grid-content bg-purple-light">
           <div style="margin-top: 20px">
-            <el-button round icon="el-icon-user-solid" type="success">用户名</el-button>
-            <el-button type="success" round>成功按钮</el-button>
+            <el-button round icon="el-icon-user-solid" type="success">{{ username }}</el-button>
+            <!--            退出登录状态-->
+            <el-button
+              @click="exit"
+              type="danger" round>退出
+            </el-button>
           </div>
 
         </div>
@@ -85,10 +89,25 @@ export default {
   name: "UserHeader",
   data() {
     return {
-      name: ''
+      username: sessionStorage.getItem('username')
     }
   },
-  methods: {}
+  methods: {
+    /**
+     * 展示用户名
+     */
+    showUserName() {
+      this.username = sessionStorage.getItem('username')
+    },
+
+
+    /**
+     * 退出登录
+     */
+    exit() {
+      this.$router.push('/index')
+    }
+  }
 }
 </script>
 
