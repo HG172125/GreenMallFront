@@ -3,6 +3,7 @@
     <div>
       <a href="#/test">test</a>
       <a href="#/user">usermain</a>
+      <a href="#/index">main</a>
     </div>
 
 

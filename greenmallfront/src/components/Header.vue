@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-image: -moz-element()">
     <!--第一行布局-->
     <el-row style="color: white" :gutter="20">
       <el-col :span="4">
@@ -87,31 +87,37 @@
       </el-col>
     </el-row>
     <!--      第二行布局-->
-    <el-row style="color: aquamarine;background-color:red;height: 100px" :gutter="20">
+    <el-row style="color: aquamarine;height: 80px;background-color: green" :gutter="20">
       <el-col :span="4">
-        <div class="grid-content bg-purple">2</div>
+        <div class="grid-content bg-purple">1</div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple-light">2</div>
+        <div class="grid-content bg-purple-light">
+          <el-image round :src="imags"></el-image>
+        </div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple">2</div>
+        <div class="grid-content bg-purple">3</div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple-light">2</div>
+        <div class="grid-content bg-purple-light"
+             style="margin-top: 20px">
+          <el-input v-model="selectGoods" placeholder="请输入内容"></el-input>
+        </div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple">2</div>
+        <div class="grid-content bg-purple"
+             style="margin-top: 20px">
+          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+        </div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple-light">2</div>
+        <div class="grid-content bg-purple-light">5</div>
       </el-col>
     </el-row>
     <div style="display: flex;justify-content:center">
-      <el-menu :default-active="activeIndex"
-               class="el-menu-demo"
-               mode="horizontal"
-               @select="handleSelect">
+      <el-menu class="el-menu-demo"
+               mode="horizontal">
         <el-menu-item index="1"><span style="font-size: 20px">首页</span></el-menu-item>
         <el-menu-item index="2"><span style="font-size: 20px">首页</span></el-menu-item>
         <el-menu-item index="3"><span style="font-size: 20px">首页</span></el-menu-item>
@@ -122,18 +128,22 @@
 </template>
 
 <script>
-//引入 js—cookies
-import cookies from "js-cookie"
+
 
 export default {//暴露当前组件
   data() {
     return {
+      //搜索栏
+      selectGoods: '',
+
       activeIndex: '1',
       activeIndex2: '1',
-      //对话框状态
+      //登录注册对话框状态
       dialogVisible1: false,
       dialogVisible2: false,
 
+      //商城图标
+      imags: require('../assets/homeImgs/p.jpg'),
       //注册
       user: {},
       checkPassWord: '',
@@ -171,8 +181,12 @@ export default {//暴露当前组件
               type: 'warning'
             })
           } else if (res.data == "3") {
-            cookies.set("username", this.dl.username)
-            this.$router.push("/user")
+            this.$router.push({
+              path: '/user',
+              params: {
+                username: this.dl.name
+              }
+            })
             this.$message({
               type: 'success',
               message: '登录成功!'
@@ -211,6 +225,8 @@ export default {//暴露当前组件
               message: '注册成功!'
             });
             this.dialogVisible2 = false;
+            this.dialogVisible1 = true;
+
 
           } else {
             this.$message({

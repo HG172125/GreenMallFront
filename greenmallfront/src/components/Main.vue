@@ -2,13 +2,15 @@
   <div style="width: 1500px;height: auto;background-color: aqua;margin: auto">
     <el-container>
       <!--      侧边栏-->
-      <el-aside style="background-color: antiquewhite;height: 400px;width: 250px">Aside</el-aside>
+      <el-aside style="background-color: antiquewhite;height: 500px;width: 250px">Aside</el-aside>
       <el-main>
         <!--        轮播图-->
         <div>
-          <el-carousel style="background-color: red;height: 350px">
-            <el-carousel-item v-for="(item,index) in imgs" :key="index">
-              <el-image :src="item" fit="contain"></el-image>
+          <el-carousel style="background-color: red;height: 400px">
+            <el-carousel-item
+              style="height: auto"
+              v-for="(item,index) in imgs" :key="index">
+              <el-image :src="item" fit="fill"></el-image>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -33,10 +35,10 @@ export default {
   data() {
     return {
       imgs: [
-        require('../assets/homeImgs/1.jpg'),
-        require('../assets/homeImgs/2.jpg'),
-        require('../assets/homeImgs/3.jpg'),
-        require('../assets/homeImgs/4.jpg'),
+        require('../assets/homeImgs/slider1.jpg'),
+        require('../assets/homeImgs/slider2.jpg'),
+        require('../assets/homeImgs/slider3.jpg'),
+        require('../assets/homeImgs/slider4.jpg'),
       ]
     }
   }

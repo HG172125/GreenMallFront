@@ -25,7 +25,7 @@
       </el-col>
     </el-row>
     <!--      第二行布局-->
-    <el-row style="color: aquamarine;background-color:red;height: 100px" :gutter="20">
+    <el-row style="color: black;height: 80px;background-color: green" :gutter="20">
       <el-col :span="4">
         <div class="grid-content bg-purple">5</div>
       </el-col>
@@ -46,19 +46,16 @@
       <el-col :span="4">
         <div class="grid-content bg-purple-light">
           <div style="margin-top: 20px">
-            <el-avatar :size="medium" icon="el-icon-user-solid">
-            </el-avatar>
-
+            <el-button round icon="el-icon-user-solid" type="success">用户名</el-button>
+            <el-button type="success" round>成功按钮</el-button>
           </div>
 
         </div>
       </el-col>
     </el-row>
     <div style="display: flex;justify-content:center">
-      <el-menu :default-active="activeIndex"
-               class="el-menu-demo"
-               mode="horizontal"
-               @select="handleSelect">
+      <el-menu class="el-menu-demo"
+               mode="horizontal">
         <el-menu-item index="1"><span style="font-size: 20px">首页</span></el-menu-item>
         <el-menu-item index="2"><span style="font-size: 20px">首页</span></el-menu-item>
         <el-menu-item index="3"><span style="font-size: 20px">首页</span></el-menu-item>
@@ -69,8 +66,15 @@
 </template>
 
 <script>
+
 export default {
-  name: "UserHeader"
+  name: "UserHeader",
+  data() {
+    return {
+      name: ''
+    }
+  },
+  methods: {}
 }
 </script>
 
