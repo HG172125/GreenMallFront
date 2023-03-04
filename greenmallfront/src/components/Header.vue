@@ -1,34 +1,54 @@
 <template>
   <div style="">
     <!--第一行布局-->
-    <el-row style="color: white;background-color: blue" :gutter="20">
+    <el-row style="color: black;height: 80px;background-color: Transparent" :gutter="20">
       <el-col :span="4">
         <div class="grid-content bg-purple">1</div>
       </el-col>
       <el-col :span="4">
-        <div style="color:green" class="grid-content bg-purple-light">
-          <span style="line-height: 2px">欢迎来到绿色助农商城！</span>
+        <div class="grid-content bg-purple-light">
+          <el-image :src="require('../assets/homeImgs/biao.jpg')"
+                    style="height: 79px"></el-image>
         </div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple">1</div>
+        <div
+          style="color: green;height: 80px;line-height: 80px"
+          class="grid-content bg-purple">
+          <!--          欢迎语句-->
+          <span>欢迎来到绿色助农商城！</span>
+        </div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple-light">1</div>
+        <div class="grid-content bg-purple-light"
+             style="margin-top: 20px">
+          <!--          搜索框-->
+          <el-input v-model="selectGoods" placeholder="请输入内容"></el-input>
+        </div>
       </el-col>
       <el-col :span="4">
-        <div class="grid-content bg-purple">
-          <!--登录弹窗-->
+        <div class="grid-content bg-purple"
+             style="margin-top: 20px">
+
+          <!--          搜索按钮-->
+          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+
+        </div>
+      </el-col>
+      <el-col :span="4">
+        <div
+          style="height: 80px;line-height: 80px"
+          class="grid-content bg-purple-light">
           <div>
             <!--登录按钮-->
             <el-button type="text"
                        @click="dialogVisible1 = true"
-                       style="line-height: 2px;color: #FFCC33">请先登录？
+                       style="line-height: 2px;color: #FFCC33;text-decoration: underline">请先登录？
             </el-button>
             <!--注册按钮-->
             <el-button type="text"
                        @click="dialogVisible2 = true"
-                       style="line-height: 2px;color: #FFCC33">免费注册
+                       style="line-height: 2px;color: #FFCC33;text-decoration: underline">免费注册
             </el-button>
             <div>
               <!--登录提示框-->
@@ -82,64 +102,20 @@
           </div>
         </div>
       </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple-light">1</div>
-      </el-col>
-    </el-row>
-    <!--      第二行布局-->
-    <el-row style="color: aquamarine;height: 80px;background-color: green" :gutter="20">
-      <el-col :span="4">
-        <div class="grid-content bg-purple">1</div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple-light">
-          <el-image :src="require('../assets/homeImgs/biao.jpg')"
-                    style="height: 79px"></el-image>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple">3</div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple-light"
-             style="margin-top: 20px">
-          <!--          搜索框-->
-          <el-input v-model="selectGoods" placeholder="请输入内容"></el-input>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple"
-             style="margin-top: 20px">
-
-          <!--          搜索按钮-->
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content bg-purple-light">5</div>
-      </el-col>
     </el-row>
 
-    <!--    display: flex;justify-content:center;-->
-    <div style="background-color: red">
-      <el-menu class="el-menu-demo"
-               mode="horizontal"
-               style="background-color: blue">
-        <el-menu-item index="1"><span style="font-size: 20px">首页</span></el-menu-item>
-        <el-menu-item index="2"><span style="font-size: 20px">商城</span></el-menu-item>
-        <el-menu-item index="3"><span style="font-size: 20px">文章</span></el-menu-item>
-        <el-menu-item index="4"><span style="font-size: 20px">我的账户</span></el-menu-item>
-        <el-menu-item index="3"><span style="font-size: 20px">购物车</span></el-menu-item>
-        <el-menu-item index="4"><span style="font-size: 20px">加入我们</span></el-menu-item>
-      </el-menu>
-    </div>
+    <!--    导航栏-->
+    <NavBar></NavBar>
+
   </div>
 </template>
 
 <script>
-
+import NavBar from "./NavBar";
 
 export default {//暴露当前组件
+  components: {NavBar},
+
   data() {
     return {
       //搜索栏
@@ -231,12 +207,17 @@ export default {//暴露当前组件
         this.$http.post("http://localhost:8080/user/add", this.user).then(res => {
           console.log(res.data)
           if (res.data == true) {
-            this.$message({
-              type: 'success',
-              message: '注册成功!'
-            });
+            this.$confirm('是否继续登录?', '注册成功！', {
+              confirmButtonText: '登录',
+              cancelButtonText: '取消',
+            }).then(() => {
+              this.dialogVisible1 = true;
+            }).catch(() => {
+              this.$message({
+                message: '已取消登录'
+              })
+            })
             this.dialogVisible2 = false;
-            this.dialogVisible1 = true;
 
 
           } else {
