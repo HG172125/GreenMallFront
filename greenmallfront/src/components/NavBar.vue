@@ -5,7 +5,7 @@
       class="el-menu-demo"
       @select="getKey"
       mode="horizontal">
-      <el-menu-item index=""><span style="font-size: 20px">首页</span></el-menu-item>
+      <el-menu-item index="/index" @click="toUrl"><span style="font-size: 20px">首页</span></el-menu-item>
       <el-submenu
         index="7">
         <template slot="title">
@@ -24,7 +24,7 @@
       </el-submenu>
       <!--      <el-menu-item index="2" @click="toUrl"><span style="font-size: 20px">商城</span></el-menu-item>-->
       <el-menu-item index="3" @click="toUrl"><span style="font-size: 20px">文章</span></el-menu-item>
-      <el-menu-item index="4" @click="toUrl"><span style="font-size: 20px">我的账户</span></el-menu-item>
+      <el-menu-item index="/user/set" @click="toUrl"><span style="font-size: 20px">我的账户</span></el-menu-item>
       <el-menu-item index="5" @click="toUrl"><span style="font-size: 20px">购物车</span></el-menu-item>
       <el-menu-item index="6" @click="toUrl"><span style="font-size: 20px">加入我们</span></el-menu-item>
 
@@ -49,7 +49,7 @@ export default {
     },
 //   跳转页面
     toUrl() {
-      if (this.url == 4 || this.url == 5) {
+      if (this.url == '/user/set' || this.url == 5) {
         if (sessionStorage.getItem('username') == null) {
           this.$confirm('您还未登录！！', '提示', {
             confirmButtonText: '确定',
@@ -60,6 +60,7 @@ export default {
           this.$router.push(this.url)
         }
       } else {
+        console.log(this.url)
         this.$router.push(this.url)
       }
 
