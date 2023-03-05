@@ -72,6 +72,8 @@ export default {
      * 退出登录
      */
     exit() {
+      sessionStorage.removeItem('username')
+      console.log(sessionStorage.getItem('username'))
       this.$router.push('/index')
     }
   }

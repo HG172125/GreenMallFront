@@ -1,7 +1,7 @@
 <template>
   <div style="">
     <!--第一行布局-->
-    <el-row style="color: black;height: 80px;background-color: Transparent" :gutter="20">
+    <el-row style="color: Transparent;height: 80px;background: url('../assets/homeImgs/bg1.jpg');" :gutter="20">
       <el-col :span="4">
         <div class="grid-content bg-purple">1</div>
       </el-col>
@@ -137,9 +137,6 @@ export default {//暴露当前组件
 
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
     /**
      * 用户登录方法
      */
