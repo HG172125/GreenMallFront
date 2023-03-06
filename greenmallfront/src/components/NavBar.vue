@@ -22,10 +22,9 @@
           <el-menu-item index="7-2-1">白菜</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <!--      <el-menu-item index="2" @click="toUrl"><span style="font-size: 20px">商城</span></el-menu-item>-->
-      <el-menu-item index="3" @click="toUrl"><span style="font-size: 20px">文章</span></el-menu-item>
       <el-menu-item index="/user/set" @click="toUrl"><span style="font-size: 20px">我的账户</span></el-menu-item>
       <el-menu-item index="5" @click="toUrl"><span style="font-size: 20px">购物车</span></el-menu-item>
+      <el-menu-item index="3" @click="toUrl"><span style="font-size: 20px">关于我们</span></el-menu-item>
       <el-menu-item index="6" @click="toUrl"><span style="font-size: 20px">加入我们</span></el-menu-item>
 
     </el-menu>

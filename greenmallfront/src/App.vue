@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <a href="#/test">test</a>
+      <a href="#/selectgoods">selectgoods</a>
       <a href="#/user">usermain</a>
       <a href="#/index">main</a>
     </div>
