@@ -1,20 +1,17 @@
 <template>
-
   <div>
     <Header></Header>
-    <AboutMoudule></AboutMoudule>
+    <JoinUsMoudule></JoinUsMoudule>
   </div>
 </template>
 
 <script>
 import Header from "./Header";
-import AboutMoudule from "./AboutMoudule";
+import JoinUsMoudule from "./JoinUsMoudule";
 
 export default {
-  name: "About",
-  components: {Header, AboutMoudule},
-
-
+  components: {JoinUsMoudule, Header},
+  name: "JoinUs"
 }
 </script>
 
