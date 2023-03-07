@@ -8,12 +8,13 @@ import UserSet from "../components/user/UserSet";
 import SelectGoods from "../components/SelectGoods";
 import ShowGoods2 from "../components/ShowGoods2";
 import About from "../components/About";
+import StoreMain from "../components/store/StoreMain";
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path: '/', redirect: "test"},
+    {path: '/', redirect: "storemain"},
     {path: '/index', component: Index},
     {path: '/test', component: Test},
     {path: '/user', component: UserMain},
@@ -21,6 +22,7 @@ export default new Router({
     {path: '/selectgoods', component: SelectGoods},
     {path: '/showgoods2', component: ShowGoods2},
     {path: '/about', component: About},
+    {path: '/storemain', component: StoreMain},
 
 
   ]

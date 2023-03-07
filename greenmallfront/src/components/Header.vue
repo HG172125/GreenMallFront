@@ -50,6 +50,11 @@
                        @click="dialogVisible2 = true"
                        style="line-height: 2px;color: #FFCC33;text-decoration: underline">免费注册
             </el-button>
+            <!--商户登录-->
+            <el-button type="text"
+                       @click="storeLogin"
+                       style="line-height: 2px;color: #FFCC33;text-decoration: underline">我是商户
+            </el-button>
             <div>
               <!--登录提示框-->
               <el-dialog
@@ -59,7 +64,8 @@
                 :before-close="handleClose">
                 <span slot="footer" class="dialog-footer">
                    <div style="margin-bottom: 20px">
-                      <el-form ref="form" label-width="80px" size="mini" style="border:1px solid #C4E1C5;padding:20px;">
+                      <el-form ref="form" label-width="80px" size="medium"
+                               style="border:1px solid #C4E1C5;padding:20px;">
                         <el-form-item label="账号">
                            <el-input v-model="dl.username" placeholder="用户名或手机号"></el-input>
                         </el-form-item>
@@ -81,7 +87,7 @@
                 :before-close="handleClose">
                 <span slot="footer" class="dialog-footer">
                     <div style="margin-bottom: 20px">
-                        <el-form ref="form" label-width="80px" size="mini"
+                        <el-form ref="form" label-width="80px" size="medium"
                                  style="border:1px solid #C4E1C5;padding:20px;">
                         <el-form-item label="用户名">
                            <el-input v-model="user.username"></el-input>
@@ -137,6 +143,15 @@ export default {//暴露当前组件
 
   },
   methods: {
+    /**
+     *
+     *商户登录
+     *
+     **/
+    storeLogin() {
+      this.$router.push("/test")
+    },
+
     /**
      * 用户登录方法
      */
@@ -257,6 +272,8 @@ export default {//暴露当前组件
       });
     }
   },
+
+
   // 注册
   UserZhuCe() {
     console.log(this.user);
@@ -269,10 +286,6 @@ export default {//暴露当前组件
       }
     })
   },
-  //登录
-  userDelu() {
-
-  }
 
 }
 </script>
