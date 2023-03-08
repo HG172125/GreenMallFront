@@ -44,16 +44,16 @@
       </el-col>
     </el-row>
     <!--    导航栏组件-->
-    <NavBar></NavBar>
+    <UserNavBar></UserNavBar>
   </div>
 </template>
 
 <script>
-import NavBar from "../NavBar";
+import UserNavBar from "./UserNavBar";
 
 export default {
   name: "UserHeader",
-  components: {NavBar},
+  components: {UserNavBar},
   data() {
     return {
       username: sessionStorage.getItem('username')

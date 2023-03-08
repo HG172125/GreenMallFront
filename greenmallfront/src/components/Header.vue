@@ -183,7 +183,7 @@ export default {//暴露当前组件
             })
           } else if (res.data == "3") {
             this.$router.push({
-              path: '/user',
+              path: '/user/main',
               params: {
                 username: this.dl.name
               }
