@@ -62,8 +62,7 @@
                 :visible.sync="dialogVisible1"
                 width="30%"
                 :before-close="handleClose">
-                <span slot="footer" class="dialog-footer">
-                   <div style="margin-bottom: 20px">
+                <span><div style="margin-bottom: 20px">
                       <el-form ref="form" label-width="80px" size="medium"
                                style="border:1px solid #C4E1C5;padding:20px;">
                         <el-form-item label="账号">
@@ -73,7 +72,9 @@
                          <el-input type="password" v-model="dl.password" placeholder="输入密码"></el-input>
                         </el-form-item>
                       </el-form>
-                   </div>
+                   </div></span>
+                <span slot="footer" class="dialog-footer">
+
 
                    <el-button @click="dialogVisible1 = false">取 消</el-button>
                    <el-button type="primary" @click="login">登录</el-button>
@@ -85,21 +86,24 @@
                 :visible.sync="dialogVisible2"
                 width="30%"
                 :before-close="handleClose">
+                <spa>
+                  <div style="margin-bottom: 20px">
+                    <el-form ref="form" label-width="80px" size="medium"
+                             style="border:1px solid #C4E1C5;padding:20px;">
+                      <el-form-item label="用户名">
+                        <el-input v-model="user.username"></el-input>
+                      </el-form-item>
+                      <el-form-item label="密码">
+                        <el-input type="password" v-model="user.password"></el-input>
+                      </el-form-item>
+                      <el-form-item label="重复密码">
+                        <el-input type="password" v-model="checkPassWord"></el-input>
+                      </el-form-item>
+                    </el-form>
+                  </div>
+                </spa>
                 <span slot="footer" class="dialog-footer">
-                    <div style="margin-bottom: 20px">
-                        <el-form ref="form" label-width="80px" size="medium"
-                                 style="border:1px solid #C4E1C5;padding:20px;">
-                        <el-form-item label="用户名">
-                           <el-input v-model="user.username"></el-input>
-                        </el-form-item>
-                        <el-form-item label="密码">
-                         <el-input type="password" v-model="user.password"></el-input>
-                        </el-form-item>
-                          <el-form-item label="重复密码">
-                         <el-input type="password" v-model="checkPassWord"></el-input>
-                        </el-form-item>
-                      </el-form>
-                    </div>
+
                    <el-button @click="dialogVisible2 = false">取 消</el-button>
                    <el-button type="primary" @click="saveUser">注 册</el-button>
                    </span>

@@ -83,22 +83,57 @@
 
             <!--            添加商品弹窗-->
             <el-dialog
-              title="添加信息"
+              title="提示"
               :visible.sync="dialogVisible1"
               width="30%"
               :before-close="handleClose">
-                <span slot="footer" class="dialog-footer">
-                   <div style="margin-bottom: 20px">
-                      <el-form ref="form" label-width="80px" size="medium" style="border:1px solid #C4E1C5;">
-                        <el-form-item label="账号">
-                           <el-input v-model="goods.gname" placeholder="用户名"></el-input>
-                        </el-form-item>
-                      </el-form>
-                   </div>
+              <span>
+                <el-form
+                  class="demo-ruleForm"
+                  ref="goods" label-width="80px" size="medium"
+                  style="border:1px solid #C4E1C5;padding:20px;">
+                    <el-form-item prop="gname" label="商品名称">
+                      <el-input v-model="goods.gname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="商品图片">
+<!--                      图片上传-->
+                       <el-upload
+                         :on-change="onUploadChange"
+                         class="upload-demo"
+                         ref="upload"
+                         action=""
+                         :on-preview="handlePreview"
+                         :on-remove="handleRemove"
+                         :file-list="fileList"
+                         list-type="picture"
+                         :limit="1"
+                         :auto-upload="false">
+                         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                       </el-upload>
+                    </el-form-item>
+                    <el-form-item label="商品单价">
+                      <el-input v-model.number="goods.gprices"></el-input>
+                    </el-form-item>
+                  <el-form-item label="商品分类">
+<!--                    商品分类布局-->
+                    <el-cascader
+                      v-model="value"
+                      :options="options"
+                      @change=""></el-cascader>
+                    </el-form-item>
+                  <el-form-item label="商品描述">
+                      <el-input type="textarea" v-model="goods.gintroduce"></el-input>
+                    </el-form-item>
+                  </el-form>
+              </span>
+              <span slot="footer" class="dialog-footer">
 
-                   <el-button @click="dialogVisible1 = false">取 消</el-button>
-                   <el-button type="primary" @click="">登录</el-button>
-                   </span>
+                <el-button @click="dialogVisible1 = false">取 消</el-button>
+
+                <el-button type="primary" @click="submitUpload">确 定</el-button>
+
+              </span>
             </el-dialog>
 
 
@@ -188,11 +223,48 @@ export default {
   name: "StoreMain",
   data() {
     return {
+      //上传文件信息
+      fileList: [],
+
       //弹窗是否可见
       dialogVisible1: false,
 
       //商品信息
-      goods: {gname: '', gimage: '', gprices: '', glable: '', gintroduce: ''},
+      goods: {sid: 12, gname: '', gimage: '', gprices: '', glable: '', gintroduce: ''},
+
+      //商品标签分类
+      value: '',
+
+      options: [{
+        value: '蔬菜', label: '蔬菜',
+        children: [{
+          value: '根菜类', label: '根菜类',
+          children: [{value: '萝卜', label: '萝卜'}, {value: '胡萝卜', label: '胡萝卜'}]
+        },
+          {
+            value: '绿叶类', label: '绿叶类',
+            children: [{value: '白菜', label: '白菜'}, {value: '菠菜', label: '菠菜'}, {value: '菠菜', label: '菠菜'}]
+          }]
+      },
+        {
+          value: '水果', label: '水果',
+          children: [{
+            value: '瓜果类', label: '瓜果类',
+            children: [{value: '西瓜', label: '西瓜'}, {value: '甜瓜', label: '甜瓜'}]
+          },
+            {
+              value: '柑橘类', label: '柑橘类',
+              children: [{value: '柠檬', label: '柠檬'}, {value: '柑桔', label: '柑桔'}]
+            },
+            {
+              value: '核果仁果类', label: '核果仁果类',
+              children: [{value: '苹果', label: '苹果'}, {value: '菠萝', label: '菠萝'}, {value: '香蕉', label: '香蕉'}]
+            }
+          ]
+        }
+      ],
+
+      //添加表单验证
 
       //订单数据
       orderData: [{name: 'name', src: 'src', prices: 'price', desc: 'desc'},
@@ -209,6 +281,73 @@ export default {
     }
   },
   methods: {
+
+
+    //上传照片
+    submitUpload() {
+
+      this.goods.glable = this.value.toString();
+      console.log(this.goods.glable)
+
+      if (this.goods.gname == '' || this.goods.gimage == '' || this.goods.gprices == '' || this.goods.gintroduce == '' || this.goods.glable.length == 0) {
+        this.$confirm('请填写所有内容！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+        //向后端发送请求
+        this.$http.post('http://localhost:8080/goods/add', this.goods).then(res => {
+          console.log(res.data)
+          if (res.data == true) {
+            console.log("true")
+            this.$confirm('添加成功！！', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'success'
+            })
+            //添加成功 关闭添加窗口
+            this.dialogVisible1 = false;
+          } else {
+            this.$confirm('用户名或密码错误！！', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            })
+          }
+        })
+
+
+      }
+
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    onUploadChange(file) {
+      const isIMAGE = (file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/gif');
+      const isLt1M = file.size / 1024 / 1024 < 1;
+
+      if (!isIMAGE) {
+        this.$message.error('上传文件只能是图片格式!');
+        return false;
+      }
+      if (!isLt1M) {
+        this.$message.error('上传文件大小不能超过 1MB!');
+        return false;
+      }
+      var This = this;
+      var reader = new FileReader();
+      reader.readAsDataURL(file.raw);
+      reader.onload = function (e) {
+        This.goods.gimage = this.result;
+      }
+    },
+
+
     //  弹出商品添加
     goodsaddDialog() {
       this.dialogVisible1 = true;
