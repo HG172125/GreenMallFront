@@ -309,7 +309,7 @@ export default {
             //添加成功 关闭添加窗口
             this.dialogVisible1 = false;
           } else {
-            this.$confirm('用户名或密码错误！！', '提示', {
+            this.$confirm('添加错误！！', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
