@@ -11,7 +11,7 @@ import About from "../components/About";
 import StoreMain from "../components/store/StoreMain";
 import UserAbout from "../components/user/UserAbout";
 import UserJoin from "../components/user/UserJoin";
-
+import JoinUs from "../components/JoinUs";
 
 Vue.use(Router)
 
@@ -24,7 +24,8 @@ export default new Router({
     {path: '/user/set', component: UserSet},
     {path: '/selectgoods', component: SelectGoods},
     {path: '/showgoods2', component: ShowGoods2},
-    {path: '/about', component: About},
+    {path: '/index/about', component: About},
+    {path: '/index/join', component: JoinUs},
     {path: '/storemain', component: StoreMain},
     {path: '/user/about', component: UserAbout},
     {path: '/user/join', component: UserJoin},
