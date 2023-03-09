@@ -228,7 +228,21 @@
               :data="orderData"
               style="width:100%;height: auto;background-color: #FFCC33">
               <el-table-column
-                label="商品名称"
+                label="订单编号"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="订单时间"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="商品编号"
                 width="180">
                 <template slot-scope="scope">
                   <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -242,27 +256,19 @@
                 </template>
               </el-table-column>
               <el-table-column
-                label="商品价格"
+                label="订单总价"
                 width="180">
                 <template slot-scope="scope">
                   <span style="margin-left: 10px">{{ scope.row.prices }}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                label="商品标签"
+                label="订单状态"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.desc }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.prices }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                label="商品描述"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.desc }}</span>
-                </template>
-              </el-table-column>
-
               <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                   <el-button

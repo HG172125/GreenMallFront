@@ -1,16 +1,16 @@
 <template>
   <div>
     <Header></Header>
-    <JoinUsMoudule></JoinUsMoudule>
+    <JoinUsModule></JoinUsModule>
   </div>
 </template>
 
 <script>
 import Header from "./Header";
-import JoinUsMoudule from "./JoinUsMoudule";
+import JoinUsModule from "./JoinUsModule";
 
 export default {
-  components: {JoinUsMoudule, Header},
+  components: {JoinUsModule, Header},
   name: "JoinUs"
 }
 </script>

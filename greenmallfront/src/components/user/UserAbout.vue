@@ -8,7 +8,7 @@
 
 <script>
 import UserHeader from "./UserHeader";
-import AboutMoudule from "../AboutMoudule";
+import AboutMoudule from "../AboutModule";
 
 export default {
   name: "UserAbout",

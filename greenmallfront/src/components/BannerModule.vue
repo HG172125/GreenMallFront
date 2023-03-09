@@ -1,27 +1,21 @@
 <template>
-  <div style="width: 1500px; background-color:hotpink;margin: auto">
-
-
-    <!--        轮播图-->
-    <BannerModule></BannerModule>
-
-    <!--        商品展示-->
-    <ShowGoods></ShowGoods>
-    <!--        -->
-    <Explain></Explain>
-
-
+  <div>
+    <el-carousel
+      height="400px" style="height: 100%;height: 100%;background: #FFCC33">
+      <el-carousel-item
+        v-for="(item,index) in imgs" :key="index">
+        <el-image
+          @click="getID(item.id)"
+          style="height: 100%;width: 100%"
+          :src="item.img" fit="fill"></el-image>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
 <script>
-import ShowGoods from "./ShowGoods";
-import Explain from "./Explain";
-import BannerModule from "./BannerModule";
-
 export default {
-  name: "Main",
-  components: {Explain, ShowGoods, BannerModule},
+  name: "BannerModule",
   data() {
     return {
       imgs: [

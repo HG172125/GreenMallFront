@@ -2,17 +2,17 @@
 
   <div>
     <Header></Header>
-    <AboutMoudule></AboutMoudule>
+    <AboutModule></AboutModule>
   </div>
 </template>
 
 <script>
 import Header from "./Header";
-import AboutMoudule from "./AboutMoudule";
+import AboutModule from "./AboutModule";
 
 export default {
   name: "About",
-  components: {Header, AboutMoudule},
+  components: {Header, AboutModule},
 
 
 }

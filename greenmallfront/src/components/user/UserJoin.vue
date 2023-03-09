@@ -7,7 +7,7 @@
 
 <script>
 import UserHeader from "./UserHeader";
-import JoinUsMoudule from "../JoinUsMoudule";
+import JoinUsMoudule from "../JoinUsModule";
 
 export default {
   name: "UserJoin",
