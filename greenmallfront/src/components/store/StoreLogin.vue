@@ -10,7 +10,7 @@
                  style="padding:20px">
           <el-form-item label="账号"
                         style="margin-top: 20%">
-            <el-input v-model="store.sname" placeholder="用户名"></el-input>
+            <el-input v-model="store.susername" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item label="密码">
             <el-input type="password" v-model="store.spassword" placeholder="输入密码"></el-input>
@@ -30,7 +30,7 @@ export default {
   name: "StoreLogin",
   data() {
     return {
-      store: {sname: '', spassword: ''}
+      store: {susername: '', spassword: ''}
 
     }
   },
@@ -39,9 +39,10 @@ export default {
 
     //商户登录
     storelogin() {
-      this.$http.post('http://localhost:8080/store/findone', this.store).then(res => {
-        if (res.data.sname == this.store.sname) {
-          console.log("true")
+      console.log(this.store)
+      console.log("开始登录")
+      this.$http.post('http://localhost:8080/store/login', this.store).then(res => {
+        if (res.data.susername == this.store.susername) {
           sessionStorage.setItem('sid', res.data.sid)
           this.$router.push('/storemain')
         } else {

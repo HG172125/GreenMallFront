@@ -70,11 +70,17 @@
                     size="mini"
                     @click="goodsEdit(scope.$index, scope.row)">编辑
                   </el-button>
-                  <el-button
-                    size="mini"
-                    type="danger"
-                    @click="">删除
-                  </el-button>
+                  <el-popconfirm
+                    @confirm="goodsDelete(scope.row)"
+                    title="确定删除本商品？">
+                    <el-button
+                      slot="reference"
+                      size="mini"
+                      type="danger"
+                      @click="">删除
+                    </el-button>
+                  </el-popconfirm>
+
                 </template>
               </el-table-column>
 
@@ -122,7 +128,7 @@
                       <el-input v-model.number="goods.gprices"></el-input>
                     </el-form-item>
                   <el-form-item label="商品分类">
-<!--                    商品分类布局-->
+<!--商品分类布局-->
                     <el-cascader
                       v-model="value"
                       :options="options"
@@ -339,6 +345,31 @@ export default {
     }
   },
   methods: {
+    //删除商品
+    goodsDelete(row) {
+      console.log(row.gid)
+      this.$http.post('http://localhost:8080/goods/delete', row).then(res => {
+        if (res.data == true) {
+          this.$confirm('删除成功！！', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'success'
+          })
+          //重新请求数据 刷新列表
+          this.goods.sid = '123'
+          this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
+            this.allGoods = res.data
+          })
+        } else {
+          this.$confirm('删除错误！！', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+        }
+      })
+    },
+
     // 修改商品信息
     goodsEdit(index, row) {
       this.dialogGoodsEdit = true;
@@ -366,8 +397,13 @@ export default {
               cancelButtonText: '取消',
               type: 'success'
             })
-            //添加成功 关闭添加窗口
+            //修改成功 关闭添加窗口
             this.dialogGoodsEdit = false;
+            //重新请求数据 刷新列表
+            this.goods.sid = '123'
+            this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
+              this.allGoods = res.data
+            })
           } else {
             this.$confirm('修改错误！！', '提示', {
               confirmButtonText: '确定',
@@ -379,12 +415,9 @@ export default {
       }
     },
 
-    //上传照片
+    //添加商品
     submitUpload() {
-
       this.goods.glable = this.value.toString();
-      console.log(this.goods.glable)
-
       if (this.goods.gname == '' || this.goods.gimage == '' || this.goods.gprices == '' || this.goods.gintroduce == '' || this.goods.glable.length == 0) {
         this.$confirm('请填写所有内容！', '提示', {
           confirmButtonText: '确定',
@@ -404,6 +437,11 @@ export default {
             })
             //添加成功 关闭添加窗口
             this.dialogVisible1 = false;
+            //重新请求数据 刷新列表
+            this.goods.sid = '123'
+            this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
+              this.allGoods = res.data
+            })
           } else {
             this.$confirm('添加错误！！', '提示', {
               confirmButtonText: '确定',
@@ -412,11 +450,11 @@ export default {
             })
           }
         })
-
-
       }
 
     },
+
+
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -448,7 +486,6 @@ export default {
     //  弹出商品添加
     goodsaddDialog() {
       this.dialogVisible1 = true;
-
     },
 
     //  弹窗关闭提醒
@@ -463,22 +500,8 @@ export default {
   },
   mounted() {
     this.goods.sid = sessionStorage.getItem("sid")
-
-    console.log(this.goods.sid)
-    this.goods.sid = '123'
-    console.log("发送请求")
     this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
-      console.log("发送goose.sid")
-      console.log(this.goods.sid)
-      console.log("获取成功")
       this.allGoods = res.data
-      console.table("allGoods")
-      console.log(this.allGoods)
-      console.log(this.allGoods.gid)
-      console.log(this.allGoods.gname)
-      console.log(this.allGoods.gprices)
-      console.log(this.allGoods.glable)
-      console.log(this.allGoods.gintroduce)
     })
   }
 
