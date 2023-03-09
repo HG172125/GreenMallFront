@@ -56,24 +56,16 @@ export default {
   components: {UserNavBar},
   data() {
     return {
-      username: sessionStorage.getItem('username')
+      username: sessionStorage.getItem('user_name'),
     }
   },
   methods: {
     /**
-     * 展示用户名
-     */
-    showUserName() {
-      this.username = sessionStorage.getItem('username')
-    },
-
-
-    /**
      * 退出登录
      */
     exit() {
-      sessionStorage.removeItem('username')
-      console.log(sessionStorage.getItem('username'))
+      sessionStorage.removeItem('user_name')
+      console.log(sessionStorage.getItem('user_name'))
       this.$router.push('/index')
     }
   }

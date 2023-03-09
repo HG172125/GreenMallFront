@@ -1,6 +1,10 @@
 <template>
 
   <div id="bg">
+    <el-button style="margin: 5px"
+               icon="el-icon-circle-plus-outline"
+               type="primary" @click="date">date
+    </el-button>
 
     <div>
       <h2 style="margin-top: 10px;margin-left: 48%"> 商家后台</h2>
@@ -23,45 +27,52 @@
               :data="allGoods"
               style="width:100%;height: auto;background-color: #FFCC33">
               <el-table-column
+                label="上传时间"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.goods_time }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
                 label="商品名称"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.gname }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.goods_name }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品照片"
                 width="180">
                 <template slot-scope="scope">
-                  <img style="margin-left: 10px;height: 100px;width: 100px" :src="scope.row.gimage">
+                  <img style="margin-left: 10px;height: 100px;width: 100px" :src="scope.row.goods_photo">
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品价格"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.gprices }}</span>RMB/KG
+                  <span style="margin-left: 10px">{{ scope.row.goods_prices }}</span>RMB/KG
                 </template>
               </el-table-column>
               <el-table-column
-                label="商品销量"
+                label="商品库存"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.gnumber }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.goods_stock }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品标签"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.glable }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.goods_lable }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品描述"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.gintroduce }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.goods_description }}</span>
                 </template>
               </el-table-column>
               <el-table-column fixed="right" label="操作">
@@ -105,7 +116,7 @@
                   ref="goods" label-width="80px" size="medium"
                   style="border:1px solid #C4E1C5;padding:20px;">
                     <el-form-item prop="gname" label="商品名称">
-                      <el-input v-model="goods.gname"></el-input>
+                      <el-input v-model="goods.goods_name"></el-input>
                     </el-form-item>
                     <el-form-item label="商品图片">
 <!--                      图片上传-->
@@ -125,7 +136,10 @@
                        </el-upload>
                     </el-form-item>
                     <el-form-item label="商品单价">
-                      <el-input v-model.number="goods.gprices"></el-input>
+                      <el-input v-model.number="goods.goods_prices"></el-input>
+                    </el-form-item>
+                   <el-form-item label="商品库存">
+                      <el-input v-model.number="goods.goods_stock"></el-input>
                     </el-form-item>
                   <el-form-item label="商品分类">
 <!--商品分类布局-->
@@ -135,7 +149,7 @@
                       @change=""></el-cascader>
                     </el-form-item>
                   <el-form-item label="商品描述">
-                      <el-input type="textarea" v-model="goods.gintroduce"></el-input>
+                      <el-input type="textarea" v-model="goods.goods_description"></el-input>
                     </el-form-item>
                   </el-form>
               </span>
@@ -275,6 +289,7 @@
               type="primary">
               添加商品
             </el-button>
+
           </div>
         </el-tab-pane>
 
@@ -299,10 +314,13 @@ export default {
       dialogVisible1: false,
 
 
-      //商品信息
-      goods: {sid: '', gid: '', gname: '', gimage: '', gprices: '', gnumber: '', glable: '', gintroduce: ''},
-      goodsEditInfo: {sid: '', gid: '', gname: '', gimage: '', gprices: '', gnumber: '', glable: '', gintroduce: ''},
+      //添加商品信息
+      goods: {goods_photo: ''},
 
+      //修改商品信息
+      goodsEditInfo: {},
+
+      //商品列表信息
       allGoods: [],
 
       //商品标签分类
@@ -345,9 +363,20 @@ export default {
     }
   },
   methods: {
+    //
+    date() {
+      var aData = new Date();
+      console.log(aData) //Wed Aug 21 2019 10:00:58 GMT+0800 (中国标准时间)
+
+      this.value =
+        aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate();
+      console.log(this.value) //2019-8-20
+      return
+    },
+
     //删除商品
     goodsDelete(row) {
-      console.log(row.gid)
+      console.log(row.goods_id)
       this.$http.post('http://localhost:8080/goods/delete', row).then(res => {
         if (res.data == true) {
           this.$confirm('删除成功！！', '提示', {
@@ -356,7 +385,7 @@ export default {
             type: 'success'
           })
           //重新请求数据 刷新列表
-          this.goods.sid = '123'
+          this.goods.goods_id = '123'
           this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
             this.allGoods = res.data
           })
@@ -373,16 +402,19 @@ export default {
     // 修改商品信息
     goodsEdit(index, row) {
       this.dialogGoodsEdit = true;
-      this.goodsEditInfo.gid = row.gid
-      this.goodsEditInfo.gname = row.gname
-      this.goodsEditInfo.gprices = row.gprices
-      this.goodsEditInfo.gintroduce = row.gintroduce
+      this.goodsEditInfo.goods_id = row.goods_id
+      this.goodsEditInfo.goods_name = row.goods_name
+      this.goodsEditInfo.goods_prices = row.goods_prices
+      this.goodsEditInfo.goods_stock = row.goods_stock
+      this.goodsEditInfo.goods_description = row.goods_description
 
     },
     //修改商品提交
     submitEditGoods() {
       this.goodsEditInfo.glable = this.valueLable.toString();
-      if (this.goodsEditInfo.gname == '' || this.goodsEditInfo.gimage == '' || this.goodsEditInfo.gprices == '' || this.goodsEditInfo.gintroduce == '' || this.goodsEditInfo.glable.length == 0) {
+      if (this.goodsEditInfo.gname == '' || this.goodsEditInfo.gimage == '' ||
+        this.goodsEditInfo.gprices == '' || this.goodsEditInfo.gintroduce == '' ||
+        this.goodsEditInfo.glable.length == 0) {
         this.$confirm('请填写所有内容！', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -417,8 +449,14 @@ export default {
 
     //添加商品
     submitUpload() {
-      this.goods.glable = this.value.toString();
-      if (this.goods.gname == '' || this.goods.gimage == '' || this.goods.gprices == '' || this.goods.gintroduce == '' || this.goods.glable.length == 0) {
+      //获取当前时间
+      var aData = new Date();
+      this.goods.goods_time = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate() + "-" + aData.getHours();
+      //获取分类标签值
+      this.goods.goods_lable = this.value.toString();
+      if (this.goods.goods_name == '' || this.goods.goods_photo == ''
+        || this.goods.goods_prices == '' || this.goods.goods_description == ''
+        || this.goods.goods_lable.length == 0 || this.goods.goods_stock == '') {
         this.$confirm('请填写所有内容！', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -437,6 +475,14 @@ export default {
             })
             //添加成功 关闭添加窗口
             this.dialogVisible1 = false;
+            //重新赋值表单goods
+            this.goods.goods_name = "";
+            this.goods.goods_prices = "";
+            this.goods.goods_stock = "";
+            this.goods.goods_description = "";
+            this.value = [];
+            this.fileList = [];
+
             //重新请求数据 刷新列表
             this.goods.sid = '123'
             this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
@@ -477,8 +523,8 @@ export default {
       var reader = new FileReader();
       reader.readAsDataURL(file.raw);
       reader.onload = function (e) {
-        This.goods.gimage = this.result;
-        This.goodsEditInfo.gimage = this.result;
+        This.goods.goods_photo = this.result;
+        This.goodsEditInfo.goods_photo = this.result;
       }
     },
 
@@ -499,7 +545,9 @@ export default {
     },
   },
   mounted() {
-    this.goods.sid = sessionStorage.getItem("sid")
+    this.goods.store_id = sessionStorage.getItem("store_id")
+    console.log("输出sid")
+    console.log(this.goods.store_id)
     this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
       this.allGoods = res.data
     })

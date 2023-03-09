@@ -66,10 +66,10 @@
                       <el-form ref="form" label-width="80px" size="medium"
                                style="border:1px solid #C4E1C5;padding:20px;">
                         <el-form-item label="账号">
-                           <el-input v-model="dl.username" placeholder="用户名或手机号"></el-input>
+                           <el-input v-model="dl.user_name" placeholder="用户名或手机号"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
-                         <el-input type="password" v-model="dl.password" placeholder="输入密码"></el-input>
+                         <el-input type="password" v-model="dl.user_password" placeholder="输入密码"></el-input>
                         </el-form-item>
                       </el-form>
                    </div></span>
@@ -84,17 +84,16 @@
               <el-dialog
                 title="注册"
                 :visible.sync="dialogVisible2"
-                width="30%"
-                :before-close="handleClose">
+                width="30%">
                 <spa>
                   <div style="margin-bottom: 20px">
                     <el-form ref="form" label-width="80px" size="medium"
                              style="border:1px solid #C4E1C5;padding:20px;">
                       <el-form-item label="用户名">
-                        <el-input v-model="user.username"></el-input>
+                        <el-input v-model="user.user_name"></el-input>
                       </el-form-item>
                       <el-form-item label="密码">
-                        <el-input type="password" v-model="user.password"></el-input>
+                        <el-input type="password" v-model="user.user_password"></el-input>
                       </el-form-item>
                       <el-form-item label="重复密码">
                         <el-input type="password" v-model="checkPassWord"></el-input>
@@ -148,9 +147,7 @@ export default {//暴露当前组件
   },
   methods: {
     /**
-     *
      *商户登录
-     *
      **/
     storeLogin() {
       this.$router.push("/test")
@@ -160,7 +157,7 @@ export default {//暴露当前组件
      * 用户登录方法
      */
     login() {
-      if (this.dl.username == null || this.dl.password == null) {
+      if (this.dl.user_name == null || this.dl.user_password == null) {
         this.$confirm('用户名或密码不能为空', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -168,34 +165,26 @@ export default {//暴露当前组件
         })
       } else {
         this.$http.post("http://localhost:8080/user/login", this.dl).then(res => {
-          console.log(res)
-          if (res.data == "1") {
-            this.$confirm('用户名不存在', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
+          console.log(res.data.user_id)
+          if (res.data.user_password == this.dl.user_password || res.data.user_name == this.dl.user_name) {
+            this.$router.push({
+              path: '/user/main',
             })
-          } else if (res.data == "2") {
+            sessionStorage.setItem('user_name', this.dl.user_name)
+            sessionStorage.setItem('user_id', res.data.user_id)
+
+            console.log(sessionStorage.getItem('user_name'))
+            this.$message({
+              type: 'success',
+              message: '登录成功!'
+            });
+          } else {
             this.$confirm('密码错误！！', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
             })
-          } else if (res.data == "3") {
-            this.$router.push({
-              path: '/user/main',
-              params: {
-                username: this.dl.name
-              }
-            })
-            sessionStorage.setItem('username', this.dl.username)
-            console.log(sessionStorage.getItem('username'))
-            this.$message({
-              type: 'success',
-              message: '登录成功!'
-            });
           }
-
         });
       }
 
@@ -205,13 +194,13 @@ export default {//暴露当前组件
      *注册用户方法
      */
     saveUser() {
-      if (this.user.username == null || this.user.password == null || this.checkPassWord == null) {
+      if (this.user.user_name == null || this.user.user_password == null || this.checkPassWord == null) {
         this.$confirm('用户名或密码不能为空', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         })
-      } else if (this.checkPassWord != this.user.password) {
+      } else if (this.checkPassWord != this.user.user_password) {
         this.$confirm('密码不一致', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -275,20 +264,6 @@ export default {//暴露当前组件
         });
       });
     }
-  },
-
-
-  // 注册
-  UserZhuCe() {
-    console.log(this.user);
-    // 发送axios请求
-    this.$http.get("http://localhost:8080/user", this.user).then(res => {
-      console.log(res);
-      if (res.data.user != null) {
-        //切换路由
-        this.$router.push("/test")
-      }
-    })
   },
 
 }

@@ -12,12 +12,13 @@ import StoreMain from "../components/store/StoreMain";
 import UserAbout from "../components/user/UserAbout";
 import UserJoin from "../components/user/UserJoin";
 import JoinUs from "../components/JoinUs";
+import StoreLogin from "../components/store/StoreLogin";
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path: '/', redirect: "storemain"},
+    {path: '/', redirect: "store/main"},
     {path: '/index', component: Index},
     {path: '/test', component: Test},
     {path: '/user/main', component: UserMain},
@@ -26,7 +27,8 @@ export default new Router({
     {path: '/showgoods2', component: ShowGoods2},
     {path: '/index/about', component: About},
     {path: '/index/join', component: JoinUs},
-    {path: '/storemain', component: StoreMain},
+    {path: '/store/main', component: StoreMain},
+    {path: '/store/login', component: StoreLogin},
     {path: '/user/about', component: UserAbout},
     {path: '/user/join', component: UserJoin},
 

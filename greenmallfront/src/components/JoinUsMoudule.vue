@@ -20,7 +20,7 @@
           <el-input
             style="width: 50%"
             placeholder="请输入内容"
-            v-model="input.sname"
+            v-model="input.store_name"
             clearable>
           </el-input>
           <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
@@ -32,7 +32,7 @@
           <el-input
             style="width: 50%"
             placeholder="请输入内容"
-            v-model="input.susername"
+            v-model="input.store_username"
             clearable>
           </el-input>
           <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
@@ -44,7 +44,7 @@
           <el-input
             style="width: 50%"
             placeholder="请输入内容"
-            v-model="input.suserphone"
+            v-model="input.store_phone"
             clearable>
           </el-input>
           <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
@@ -57,7 +57,7 @@
           <el-input
             style="width: 50%"
             placeholder="请输入内容"
-            v-model="input.spassword"
+            v-model="input.store_password"
             show-password
             clearable>
           </el-input>
@@ -67,7 +67,7 @@
         </div>
         <!-- 成功-->
         <div v-show="step5" style="text-align: center;margin-top: 20px">
-          <el-button type="success" style="margin-top: 12px;" @click="">注册成功</el-button>
+          <el-button type="success" style="margin-top: 12px;" @click="storeLogin">跳转登录</el-button>
         </div>
         <!-- 失败-->
         <div v-show="step6" style="text-align: center;margin-top: 20px">
@@ -101,11 +101,15 @@ export default {
 
       active: 0,
       title: '加入我们',
-      input: {sname: '', susername: '', suserphone: '', spassword: ''}
+      input: {}
     };
   },
 
   methods: {
+
+    storeLogin() {
+      this.$router.push('/store/login')
+    },
     next() {
       if (this.active++ > 5) this.active = 0;
       switch (this.active) {

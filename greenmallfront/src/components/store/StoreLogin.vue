@@ -10,10 +10,10 @@
                  style="padding:20px">
           <el-form-item label="账号"
                         style="margin-top: 20%">
-            <el-input v-model="store.susername" placeholder="用户名"></el-input>
+            <el-input v-model="store.store_username" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input type="password" v-model="store.spassword" placeholder="输入密码"></el-input>
+            <el-input type="password" v-model="store.store_password" placeholder="输入密码"></el-input>
           </el-form-item>
         </el-form>
         <el-button @click="backindex">取 消</el-button>
@@ -30,7 +30,7 @@ export default {
   name: "StoreLogin",
   data() {
     return {
-      store: {susername: '', spassword: ''}
+      store: {},
 
     }
   },
@@ -42,9 +42,9 @@ export default {
       console.log(this.store)
       console.log("开始登录")
       this.$http.post('http://localhost:8080/store/login', this.store).then(res => {
-        if (res.data.susername == this.store.susername) {
-          sessionStorage.setItem('sid', res.data.sid)
-          this.$router.push('/storemain')
+        if (res.data.store_username == this.store.store_username) {
+          sessionStorage.setItem('store_id', res.data.store_id)
+          this.$router.push('/store/main')
         } else {
           this.$confirm('用户名或密码错误！！', '提示', {
             confirmButtonText: '确定',
