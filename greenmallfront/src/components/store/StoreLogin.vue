@@ -40,9 +40,9 @@ export default {
     //商户登录
     storelogin() {
       this.$http.post('http://localhost:8080/store/findone', this.store).then(res => {
-        console.log(res.data)
         if (res.data.sname == this.store.sname) {
           console.log("true")
+          sessionStorage.setItem('sid', res.data.sid)
           this.$router.push('/storemain')
         } else {
           this.$confirm('用户名或密码错误！！', '提示', {

@@ -229,8 +229,11 @@ export default {
       //弹窗是否可见
       dialogVisible1: false,
 
+
       //商品信息
-      goods: {sid: 12, gname: '', gimage: '', gprices: '', glable: '', gintroduce: ''},
+      goods: {sid: '', gid: '', gname: '', gimage: '', gprices: '', glable: '', gintroduce: ''},
+
+      allGoods: [],
 
       //商品标签分类
       value: '',
@@ -267,17 +270,7 @@ export default {
       //添加表单验证
 
       //订单数据
-      orderData: [{name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},
-        {name: 'name', src: 'src', prices: 'price', desc: 'desc'},]
+      orderData: [],
     }
   },
   methods: {
@@ -363,7 +356,27 @@ export default {
         .catch(_ => {
         });
     },
+  },
+  mounted() {
+    this.goods.sid = sessionStorage.getItem("sid")
+
+    console.log(this.goods.sid)
+    console.log("发送请求")
+    this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
+      console.log("发送goose.sid")
+      console.log(this.goods.sid)
+      console.log("获取成功")
+      this.allGoods = res.data
+      console.log("allGoods")
+      console.log(this.allGoods)
+      console.log(this.allGoods.gid)
+      console.log(this.allGoods.gname)
+      console.log(this.allGoods.gprices)
+      console.log(this.allGoods.glable)
+      console.log(this.allGoods.gintroduce)
+    })
   }
+
 }
 </script>
 

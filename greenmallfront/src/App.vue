@@ -2,7 +2,7 @@
   <div>
     <div>
       <a href="#/selectgoods">selectgoods</a>
-      <a href="#/user">usermain</a>
+      <a href="#/user/main">usermain</a>
       <a href="#/index">main</a>
     </div>
 
