@@ -20,49 +20,55 @@
           <div style="height:800px;width:100%">
             <el-table
               height="700"
-              :data="orderData"
+              :data="allGoods"
               style="width:100%;height: auto;background-color: #FFCC33">
               <el-table-column
                 label="商品名称"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.gname }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品照片"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.src }}</span>
+                  <img style="margin-left: 10px;height: 100px;width: 100px" :src="scope.row.gimage">
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品价格"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.prices }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.gprices }}</span>RMB/KG
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="商品销量"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.gnumber }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品标签"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.desc }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.glable }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="商品描述"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.desc }}</span>
+                  <span style="margin-left: 10px">{{ scope.row.gintroduce }}</span>
                 </template>
               </el-table-column>
-
               <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                   <el-button
                     size="mini"
-                    @click="">编辑
+                    @click="goodsEdit(scope.$index, scope.row)">编辑
                   </el-button>
                   <el-button
                     size="mini"
@@ -132,6 +138,60 @@
                 <el-button @click="dialogVisible1 = false">取 消</el-button>
 
                 <el-button type="primary" @click="submitUpload">确 定</el-button>
+
+              </span>
+            </el-dialog>
+
+            <!--            修改商品弹窗-->
+            <el-dialog
+              title="提示"
+              :visible.sync="dialogGoodsEdit"
+              width="30%"
+              :before-close="handleClose">
+              <span>
+                <el-form
+                  class="demo-ruleForm"
+                  ref="goods" label-width="80px" size="medium"
+                  style="border:1px solid #C4E1C5;padding:20px;">
+                    <el-form-item prop="gname" label="商品名称">
+                      <el-input v-model="goodsEditInfo.gname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="商品图片">
+<!--                      图片上传-->
+                       <el-upload
+                         :on-change="onUploadChange"
+                         class="upload-demo"
+                         ref="upload"
+                         action=""
+                         :on-preview="handlePreview"
+                         :on-remove="handleRemove"
+                         :file-list="fileList"
+                         list-type="picture"
+                         :limit="1"
+                         :auto-upload="false">
+                         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                       </el-upload>
+                    </el-form-item>
+                    <el-form-item label="商品单价">
+                      <el-input v-model.number="goodsEditInfo.gprices"></el-input>
+                    </el-form-item>
+                  <el-form-item label="商品分类">
+                    <el-cascader
+                      v-model="valueLable"
+                      :options="options"
+                      @change=""></el-cascader>
+                    </el-form-item>
+                  <el-form-item label="商品描述">
+                      <el-input type="textarea" v-model="goodsEditInfo.gintroduce"></el-input>
+                    </el-form-item>
+                  </el-form>
+              </span>
+              <span slot="footer" class="dialog-footer">
+
+                <el-button @click="dialogGoodsEdit = false">取 消</el-button>
+
+                <el-button type="primary" @click="submitEditGoods">确 定</el-button>
 
               </span>
             </el-dialog>
@@ -223,6 +283,9 @@ export default {
   name: "StoreMain",
   data() {
     return {
+      //商品修改删除
+      dialogGoodsEdit: false,
+
       //上传文件信息
       fileList: [],
 
@@ -231,12 +294,14 @@ export default {
 
 
       //商品信息
-      goods: {sid: '', gid: '', gname: '', gimage: '', gprices: '', glable: '', gintroduce: ''},
+      goods: {sid: '', gid: '', gname: '', gimage: '', gprices: '', gnumber: '', glable: '', gintroduce: ''},
+      goodsEditInfo: {sid: '', gid: '', gname: '', gimage: '', gprices: '', gnumber: '', glable: '', gintroduce: ''},
 
       allGoods: [],
 
       //商品标签分类
       value: '',
+      valueLable: '',
 
       options: [{
         value: '蔬菜', label: '蔬菜',
@@ -274,7 +339,45 @@ export default {
     }
   },
   methods: {
+    // 修改商品信息
+    goodsEdit(index, row) {
+      this.dialogGoodsEdit = true;
+      this.goodsEditInfo.gid = row.gid
+      this.goodsEditInfo.gname = row.gname
+      this.goodsEditInfo.gprices = row.gprices
+      this.goodsEditInfo.gintroduce = row.gintroduce
 
+    },
+    //修改商品提交
+    submitEditGoods() {
+      this.goodsEditInfo.glable = this.valueLable.toString();
+      if (this.goodsEditInfo.gname == '' || this.goodsEditInfo.gimage == '' || this.goodsEditInfo.gprices == '' || this.goodsEditInfo.gintroduce == '' || this.goodsEditInfo.glable.length == 0) {
+        this.$confirm('请填写所有内容！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+        //向后端发送请求
+        this.$http.post('http://localhost:8080/goods/update', this.goodsEditInfo).then(res => {
+          if (res.data == true) {
+            this.$confirm('修改成功！！', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'success'
+            })
+            //添加成功 关闭添加窗口
+            this.dialogGoodsEdit = false;
+          } else {
+            this.$confirm('修改错误！！', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            })
+          }
+        })
+      }
+    },
 
     //上传照片
     submitUpload() {
@@ -337,6 +440,7 @@ export default {
       reader.readAsDataURL(file.raw);
       reader.onload = function (e) {
         This.goods.gimage = this.result;
+        This.goodsEditInfo.gimage = this.result;
       }
     },
 
@@ -361,13 +465,14 @@ export default {
     this.goods.sid = sessionStorage.getItem("sid")
 
     console.log(this.goods.sid)
+    this.goods.sid = '123'
     console.log("发送请求")
     this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
       console.log("发送goose.sid")
       console.log(this.goods.sid)
       console.log("获取成功")
       this.allGoods = res.data
-      console.log("allGoods")
+      console.table("allGoods")
       console.log(this.allGoods)
       console.log(this.allGoods.gid)
       console.log(this.allGoods.gname)
