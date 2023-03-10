@@ -1,11 +1,6 @@
 <template>
 
   <div id="bg">
-    <el-button style="margin: 5px"
-               icon="el-icon-circle-plus-outline"
-               type="primary" @click="date">date
-    </el-button>
-
     <div>
       <h2 style="margin-top: 10px;margin-left: 48%"> 商家后台</h2>
     </div>

@@ -47,6 +47,9 @@ export default {
 //   跳转页面
     toUrl() {
       if (this.url == '/user/set' || this.url == 5) {
+        //------------------------------------------------------------------
+
+        sessionStorage.setItem('user_name', 'i')
         if (sessionStorage.getItem('user_name') == null) {
           this.$confirm('您还未登录！！', '提示', {
             confirmButtonText: '确定',

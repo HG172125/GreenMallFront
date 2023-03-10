@@ -10,19 +10,24 @@ import ShowGoods2 from "../components/ShowGoods2";
 import About from "../components/About";
 import StoreMain from "../components/store/StoreMain";
 import UserAbout from "../components/user/UserAbout";
-import UserJoin from "../components/user/UserJoin";
 import JoinUs from "../components/JoinUs";
 import StoreLogin from "../components/store/StoreLogin";
+import GoodsInfo from "../components/GoodsInfo";
+import UserGoodsInfo from "../components/user/UserGoodsInfo";
+import UserJoin from "../components/user/UserJoin";
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path: '/', redirect: "index"},
+    {path: '/', redirect: "/user/main"},
     {path: '/index', component: Index},
     {path: '/test', component: Test},
     {path: '/user/main', component: UserMain},
     {path: '/user/set', component: UserSet},
+    {path: '/user/join', component: UserJoin},
+    {path: '/user/goodsInfo', component: UserGoodsInfo},
     {path: '/selectgoods', component: SelectGoods},
     {path: '/showgoods2', component: ShowGoods2},
     {path: '/index/about', component: About},
@@ -30,7 +35,7 @@ export default new Router({
     {path: '/store/main', component: StoreMain},
     {path: '/store/login', component: StoreLogin},
     {path: '/user/about', component: UserAbout},
-    {path: '/user/join', component: UserJoin},
+    {path: '/index/goodsinfo', component: GoodsInfo},
 
 
   ]

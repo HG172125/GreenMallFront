@@ -150,7 +150,7 @@ export default {//暴露当前组件
      *商户登录
      **/
     storeLogin() {
-      this.$router.push("/test")
+      this.$router.push("/store/login")
     },
 
     /**
