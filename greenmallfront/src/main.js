@@ -6,6 +6,9 @@ import router from './router'
 //引入elementui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+//引入echart
+import ECharts from "vue-echarts";
+import 'echarts'
 
 //引入Axios前端请求
 import axios from "axios";
