@@ -31,7 +31,7 @@
              style="margin-top: 20px">
 
           <!--          搜索按钮-->
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button @click="select" type="primary" icon="el-icon-search">搜索</el-button>
 
         </div>
       </el-col>
@@ -92,6 +92,12 @@
                       <el-form-item label="用户名">
                         <el-input v-model="user.user_name"></el-input>
                       </el-form-item>
+                      <el-form-item label="手机号">
+                        <el-input v-model="user.user_phone"></el-input>
+                      </el-form-item>
+                      <el-form-item label="用户地址">
+                        <el-input v-model="user.user_address"></el-input>
+                      </el-form-item>
                       <el-form-item label="密码">
                         <el-input type="password" v-model="user.user_password"></el-input>
                       </el-form-item>
@@ -136,6 +142,7 @@ export default {//暴露当前组件
       dialogVisible1: false,
       dialogVisible2: false,
 
+
       //商城图标
       imags: require('../assets/homeImgs/biao.jpg'),
       //注册
@@ -146,6 +153,21 @@ export default {//暴露当前组件
 
   },
   methods: {
+    //搜索商品
+    select() {
+      if (this.selectGoods == '') {
+        this.$message({
+          type: 'error',
+          message: '输入信息!'
+        });
+      } else {
+        sessionStorage.setItem("select", this.selectGoods)
+        console.log(sessionStorage.getItem('select'))
+        this.$router.push('/selectgoods')
+      }
+
+    },
+
     /**
      *商户登录
      **/
@@ -165,13 +187,15 @@ export default {//暴露当前组件
         })
       } else {
         this.$http.post("http://localhost:8080/user/login", this.dl).then(res => {
-          console.log(res.data.user_id)
+          console.log(res.data)
+          sessionStorage.setItem('user_name', this.dl.user_name)
+          sessionStorage.setItem('user_id', res.data.user_id)
+          sessionStorage.setItem('user_phone', res.data.user_phone)
+          sessionStorage.setItem('user_address', res.data.user_address)
           if (res.data.user_password == this.dl.user_password || res.data.user_name == this.dl.user_name) {
             this.$router.push({
               path: '/user/main',
             })
-            sessionStorage.setItem('user_name', this.dl.user_name)
-            sessionStorage.setItem('user_id', res.data.user_id)
 
             console.log(sessionStorage.getItem('user_name'))
             this.$message({
@@ -194,8 +218,9 @@ export default {//暴露当前组件
      *注册用户方法
      */
     saveUser() {
-      if (this.user.user_name == null || this.user.user_password == null || this.checkPassWord == null) {
-        this.$confirm('用户名或密码不能为空', '提示', {
+      if (this.user.user_name == null || this.user.user_password == null || this.checkPassWord == null
+        || this.user.user_phone == null || this.user.user_address == null) {
+        this.$confirm('请填写全部信息', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

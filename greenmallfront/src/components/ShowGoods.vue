@@ -2,10 +2,10 @@
   <div>
 
     <el-container>
-      <div style="margin-top:20px;height: auto;background: cadetblue;width: 100%">
+      <div style="margin-top:20px;height: auto;width: 100%">
         <!--      展示标题-->
         <div
-          style="margin-top: 10px;height: 100px;background: black"
+          style="margin-top: 10px;height: 100px"
           id="Goods">
           <el-row style="color: transparent">
             <el-col :span="8">
@@ -31,7 +31,6 @@
             <div class="grid-content bg-purple"><span style="color:Transparent ">1</span></div>
           </el-col>
           <el-col
-            style="background: red"
             :span="20">
             <div
               class="grid-content bg-purple">
@@ -43,10 +42,13 @@
                   <img style="height: 150px" :src="item.goods_photo">
                   <div style="padding: 14px;">
                     <div><span>名称:{{ item.goods_name }}</span></div>
-                    <div><span>价格:{{ item.goods_prices }}</span></div>
+                    <div><span style="color:red;">￥： {{ item.goods_prices }}</span></div>
                     <span></span>
                     <div>
-                      <el-button @click="addCart(item.goods_id)" type="text" class="button">加入购物车</el-button>
+                      <el-button
+                        @click="addCart(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
+                        type="text" class="button">加入购物车
+                      </el-button>
                       <el-button
                         @click="toGoodsInfo(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
                         type="text" class="button">详情
@@ -68,10 +70,10 @@
       </div>
     </el-container>
     <el-container>
-      <div style="margin-top:20px;height: auto;background: cadetblue;width: 100%">
+      <div style="margin-top:20px;height: auto;width: 100%">
         <!--      展示标题-->
         <div
-          style="margin-top: 10px;height: 100px;background: black"
+          style="margin-top: 10px;height: 100px"
           id="Goods1">
           <el-row style="color: transparent">
             <el-col :span="8">
@@ -97,7 +99,6 @@
             <div class="grid-content bg-purple"><span style="color:Transparent ">1</span></div>
           </el-col>
           <el-col
-            style="background: red"
             :span="20">
             <div
               class="grid-content bg-purple">
@@ -109,10 +110,152 @@
                   <img style="height: 150px" :src="item.goods_photo">
                   <div style="padding: 14px;">
                     <div><span>名称:{{ item.goods_name }}</span></div>
-                    <div><span>价格:{{ item.goods_prices }}</span></div>
+                    <div><span style="color:red;">￥： {{ item.goods_prices }}</span></div>
                     <span></span>
                     <div>
-                      <el-button @click="addCart(item.goods_id)" type="text" class="button">加入购物车</el-button>
+                      <el-button
+                        @click="addCart(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
+                        type="text" class="button">加入购物车
+                      </el-button>
+                      <el-button
+                        @click="toGoodsInfo(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
+                        type="text" class="button">详情
+                      </el-button>
+                      <el-button
+                        @click="addOrder(item.goods_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_stock)"
+                        type="text" class="button">下单
+                      </el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="2">
+            <div class="grid-content bg-purple"><span style="color:Transparent ">1</span></div>
+          </el-col>
+        </el-row>
+      </div>
+    </el-container>
+
+    <!------------水果分类    -->
+    <el-container>
+      <div style="margin-top:20px;height: auto;width: 100%">
+        <!--      展示标题-->
+        <div
+          style="margin-top: 10px;height: 100px"
+          id="Goods2">
+          <el-row style="color: transparent">
+            <el-col :span="8">
+              <div class="grid-content bg-purple">1</div>
+            </el-col>
+            <el-col :span="8">
+              <div
+                style="text-align: center"
+                class="grid-content bg-purple-light">
+                <div style="font-size: 40px;margin-top: 20px;color: #606266">新鲜水果</div>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple">1</div>
+            </el-col>
+          </el-row>
+        </div>
+        <!--        内容展示-->
+        <el-row
+          style="height:auto"
+          :gutter="20">
+          <el-col :span="2">
+            <div class="grid-content bg-purple"><span style="color:Transparent ">1</span></div>
+          </el-col>
+          <el-col
+            :span="20">
+            <div
+              class="grid-content bg-purple">
+              <!--        商品展示-->
+              <div v-for="(item,index) in newGoods"
+                   :key="index"
+                   style="width: 23%;float: left;margin:12px">
+                <el-card shadow="hover">
+                  <img style="height: 150px" :src="item.goods_photo">
+                  <div style="padding: 14px;">
+                    <div><span>名称:{{ item.goods_name }}</span></div>
+                    <div><span style="color:red;">￥： {{ item.goods_prices }}</span></div>
+                    <span></span>
+                    <div>
+                      <el-button
+                        @click="addCart(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
+                        type="text" class="button">加入购物车
+                      </el-button>
+                      <el-button
+                        @click="toGoodsInfo(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
+                        type="text" class="button">详情
+                      </el-button>
+                      <el-button
+                        @click="addOrder(item.goods_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_stock)"
+                        type="text" class="button">下单
+                      </el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="2">
+            <div class="grid-content bg-purple"><span style="color:Transparent ">1</span></div>
+          </el-col>
+        </el-row>
+      </div>
+    </el-container>
+    <!------------蔬菜分类    -->
+    <el-container>
+      <div style="margin-top:20px;height: auto;width: 100%">
+        <!--      展示标题-->
+        <div
+          style="margin-top: 10px;height: 100px"
+          id="Goods3">
+          <el-row style="color: transparent">
+            <el-col :span="8">
+              <div class="grid-content bg-purple">1</div>
+            </el-col>
+            <el-col :span="8">
+              <div
+                style="text-align: center"
+                class="grid-content bg-purple-light">
+                <div style="font-size: 40px;margin-top: 20px;color: #606266">蔬菜专区</div>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple">1</div>
+            </el-col>
+          </el-row>
+        </div>
+        <!--        内容展示-->
+        <el-row
+          style="height:auto"
+          :gutter="20">
+          <el-col :span="2">
+            <div class="grid-content bg-purple"><span style="color:Transparent ">1</span></div>
+          </el-col>
+          <el-col
+            :span="20">
+            <div
+              class="grid-content bg-purple">
+              <!--        商品展示-->
+              <div v-for="(item,index) in vegetableGoods"
+                   :key="index"
+                   style="width: 23%;float: left;margin:12px">
+                <el-card shadow="hover">
+                  <img style="height: 150px" :src="item.goods_photo">
+                  <div style="padding: 14px;">
+                    <div><span>名称:{{ item.goods_name }}</span></div>
+                    <div><span style="color:red;">￥： {{ item.goods_prices }}</span></div>
+                    <span></span>
+                    <div>
+                      <el-button
+                        @click="addCart(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
+                        type="text" class="button">加入购物车
+                      </el-button>
                       <el-button
                         @click="toGoodsInfo(item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock)"
                         type="text" class="button">详情
@@ -179,6 +322,39 @@
         <el-button type="primary" @click="checkForm">确认</el-button>
       </div>
     </el-dialog>
+    <!--      加购物车弹窗-->
+    <el-dialog
+      title="添加购物车" center
+      :visible.sync="addCartVisible">
+      <el-row>
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            <img style="height: 150px" :src="cartForm.formphono">
+          </div>
+        </el-col>
+        <el-col :span="16">
+          <div class="grid-content bg-purple">
+            <!--      下单表单-->
+            <el-form :inline="true" class="demo-form-inline">
+              <el-form-item style="width: 200px" label="商品名称">
+                <span>{{ cartForm.formname }}</span>
+              </el-form-item>
+              <el-form-item style="width: 200px" label="商品单价">
+                <span>{{ cartForm.formprice }}</span>
+              </el-form-item>
+              <el-form-item label="商品数量">
+                <el-input v-model="cartNumber" :placeholder="'剩余数量'+cartForm.formstock"></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-col>
+      </el-row>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeAddCart">取 消</el-button>
+        <el-button @click="confirmAddCart" type="primary">确认</el-button>
+      </div>
+    </el-dialog>
 
 
   </div>
@@ -198,6 +374,8 @@ export default {
 
       newGoods: [],
       hotGoods: [],
+      fruitGoods: [],
+      vegetableGoods: [],
 
       user: {user_name: '', user_password: ''},
       //  支付密码
@@ -205,6 +383,9 @@ export default {
 
       //  下单表单
       orderForm: {formname: '', formphono: '', formprice: '', formstock: ''},
+      cartForm: {formname: '', formphono: '', formprice: '', formstock: ''},
+      addCartVisible: false,
+      cartNumber: '',
 
       //修改库存
       upGoods: {goods_id: '', goods_stock: ''},
@@ -238,15 +419,24 @@ export default {
 
     //下单操作
     addOrder(goods_id, goods_name, goods_photo, goods_prices, goods_stock) {
-      this.orderData.goods_id = goods_id
-      this.orderData.user_id = sessionStorage.getItem("user_id")
+      if (sessionStorage.getItem('user_id') == null) {
+        this.$confirm('您还未登录！！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+        this.orderData.goods_id = goods_id
+        this.orderData.user_id = sessionStorage.getItem("user_id")
 
-      this.orderForm.formname = goods_name
-      this.orderForm.formphono = goods_photo
-      this.orderForm.formprice = goods_prices
-      this.orderForm.formstock = goods_stock
-      console.log("库存" + goods_stock)
-      this.outerVisible = true
+        this.orderForm.formname = goods_name
+        this.orderForm.formphono = goods_photo
+        this.orderForm.formprice = goods_prices
+        this.orderForm.formstock = goods_stock
+        console.log("库存" + goods_stock)
+        this.outerVisible = true
+      }
+
     },
     //添加订单信息
     finishOrder() {
@@ -258,9 +448,6 @@ export default {
       this.orderData.order_time = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate() + "-" + aData.getHours();
       this.orderData.order_state = '已下单'
       this.orderData.order_goodsnumber = this.goodsnumber
-
-
-      console.log("2" + this.orderData)
 
       console.log(this.orderData.goods_id)
       console.log(this.orderData.user_id)
@@ -332,8 +519,70 @@ export default {
 
 
     },
-    addCart(gid) {
-      console.log("加入购物车" + gid)
+    // addCart(gid) {
+    //   console.log("加入购物车" + gid)
+    // },
+
+
+    //item.goods_id,item.store_id,item.goods_name,item.goods_photo,item.goods_prices,item.goods_description,item.goods_stock
+    //添加购物车
+    addCart(goods_id, store_id, goods_name, goods_photo, goods_prices, goods_description, goods_stock) {
+      if (sessionStorage.getItem('user_id') == null) {
+        this.$confirm('您还未登录！！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+        this.addCartVisible = true
+        console.log("开始加购")
+        this.cartForm.formname = goods_name
+        this.cartForm.formphono = goods_photo
+        this.cartForm.formprice = goods_prices
+        this.cartForm.formstock = goods_stock
+        this.orderData.goods_id = goods_id
+      }
+
+    },
+
+    //  取消添加购车
+    closeAddCart() {
+      this.addCartVisible = false
+      this.cartNumber = ''
+
+    },
+
+    // 确认添加购物车
+    confirmAddCart() {
+      if (this.cartNumber == '' || parseInt(this.cartNumber) < parseInt('1') || parseInt(this.cartNumber) > parseInt(this.cartForm.formstock)) {
+        this.$message({
+          type: 'error',
+          message: '输入有效数量'
+        });
+      } else {
+        //  添加购物车
+
+        this.orderData.user_id = sessionStorage.getItem("user_id")
+        this.orderData.order_goodsnumber = this.cartNumber
+        this.orderData.order_state = "已加购"
+        var aData = new Date();
+        this.orderData.order_time = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate() + "-" + aData.getHours();
+        this.$http.post("http://localhost:8080/order/insert", this.orderData).then(res => {
+          if (res.data == true) {
+            //添加购物车成功
+            this.$message({
+              type: 'success',
+              message: '添加购物车成功!'
+            });
+            this.closeAddCart()
+          } else {
+            this.$message({
+              type: 'error',
+              message: '添加购物车失败!'
+            });
+          }
+        })
+      }
     },
 
   },
@@ -343,6 +592,12 @@ export default {
     })
     this.$http.post("http://localhost:8080/goods/newGoods").then(res => {
       this.newGoods = res.data
+    })
+    this.$http.post("http://localhost:8080/goods/fruitGoods").then(res => {
+      this.fruitGoods = res.data
+    })
+    this.$http.post("http://localhost:8080/goods/vegetableGoods").then(res => {
+      this.vegetableGoods = res.data
     })
 
   }
@@ -364,4 +619,19 @@ export default {
   width: 100%;
   align-content: center;
 }
+
+#Goods2 {
+  background: url('../assets/homeImgs/bg1.jpg') center;
+  height: 100px;
+  width: 100%;
+  align-content: center;
+}
+
+#Goods3 {
+  background: url('../assets/homeImgs/bg1.jpg') center;
+  height: 100px;
+  width: 100%;
+  align-content: center;
+}
+
 </style>

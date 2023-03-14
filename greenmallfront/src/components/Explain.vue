@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <div style="width: 1500px; background-color:indianred;margin-top: 20px">
-      <el-row style="background-color: #FFFFFF;height: 150px">
+    <div style="background: #F2F6FC; margin-left: 10%;width: 1500px;margin-top: 20px">
+      <el-row style="height: 150px">
         <el-col :span="6">
           <div class="grid-content bg-purple">
             <el-row>

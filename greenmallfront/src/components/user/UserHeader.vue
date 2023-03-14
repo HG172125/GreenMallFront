@@ -19,7 +19,7 @@
           style="margin-top: 20px"
           class="grid-content bg-purple-light">
           <!--          搜索框-->
-          <el-input placeholder="请输入内容"></el-input>
+          <el-input v-model="selectInfo" placeholder="请输入内容"></el-input>
         </div>
       </el-col>
       <el-col :span="4">
@@ -27,7 +27,7 @@
           style="margin-top: 20px"
           class="grid-content bg-purple">
           <!--          搜索按钮-->
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button @click="selectGoods" type="primary" icon="el-icon-search">搜索</el-button>
         </div>
       </el-col>
       <el-col :span="4">
@@ -56,15 +56,32 @@ export default {
   components: {UserNavBar},
   data() {
     return {
+      selectInfo: '',
       username: sessionStorage.getItem('user_name'),
     }
   },
   methods: {
+    //搜索商品
+    selectGoods() {
+      if (this.selectInfo == '') {
+        this.$message({
+          type: 'error',
+          message: '输入信息!'
+        });
+      } else {
+        sessionStorage.setItem("select", this.selectInfo)
+        console.log(sessionStorage.getItem('select'))
+        this.$router.push('/user/select')
+      }
+    },
+
+
     /**
      * 退出登录
      */
     exit() {
       sessionStorage.removeItem('user_name')
+      sessionStorage.removeItem('user_id')
       console.log(sessionStorage.getItem('user_name'))
       this.$router.push('/index')
     }

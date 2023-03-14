@@ -12,18 +12,20 @@
           <span style="font-size: 20px">农产品</span>
         </template>
 
-        <el-submenu index="7-1">
+        <el-submenu @click="toSelect" index="蔬菜">
           <template slot="title">蔬菜</template>
-          <el-menu-item index="7-1-1">白菜</el-menu-item>
+          <el-menu-item @click="toSelect" index="白菜">白菜</el-menu-item>
+          <el-menu-item @click="toSelect" index="西兰花">西兰花</el-menu-item>
         </el-submenu>
 
-        <el-submenu index="7-2">
+        <el-submenu index="1-2">
           <template slot="title">水果</template>
-          <el-menu-item index="7-2-1">白菜</el-menu-item>
+          <el-menu-item @click="toSelect" index="苹果">苹果</el-menu-item>
+          <el-menu-item @click="toSelect" index="葡萄">葡萄</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-menu-item index="/user/set" @click="toUrl"><span style="font-size: 20px">我的账户</span></el-menu-item>
-      <el-menu-item index="5" @click="toUrl"><span style="font-size: 20px">购物车</span></el-menu-item>
+      <!--      <el-menu-item index="5" @click="toUrl"><span style="font-size: 20px">购物车</span></el-menu-item>-->
       <el-menu-item index="/user/about" @click="toUrl"><span style="font-size: 20px">关于我们</span></el-menu-item>
       <el-menu-item index="/user/join" @click="toUrl"><span style="font-size: 20px">加入我们</span></el-menu-item>
 
@@ -43,13 +45,21 @@ export default {
     //获取导航标
     getKey(key) {
       this.url = key
+      console.log(key)
+    },
+
+    toSelect() {
+      sessionStorage.setItem("select", this.url)
+      console.log(sessionStorage.getItem('select'))
+      this.$router.go(0)
+      this.$router.push('/user/select').then((result) => {
+      }).catch(reason => {
+      })
     },
 //   跳转页面
     toUrl() {
       if (this.url == '/user/set' || this.url == 5) {
         //------------------------------------------------------------------
-
-        sessionStorage.setItem('user_name', 'i')
         if (sessionStorage.getItem('user_name') == null) {
           this.$confirm('您还未登录！！', '提示', {
             confirmButtonText: '确定',

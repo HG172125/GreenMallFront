@@ -1,16 +1,44 @@
 <template>
 
   <div id="bg">
-    <div>
-      <h2 style="margin-top: 10px;margin-left: 48%"> 商家后台</h2>
-    </div>
+    <el-row>
+      <el-col :span="8">
+        <div style="color:Transparent;" class="grid-content bg-purple">1</div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-light"><h2 style="margin-top: 10px;margin-left: 48%"> 商家后台</h2></div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <el-button @click="out" style="margin-left: 80%;margin-top: 10px" type="danger" plain>退出</el-button>
+        </div>
+      </el-col>
+    </el-row>
+
     <div>
       <el-tabs
-        style="width: 100%;height: 800px;background: chartreuse"
+        style="width: 100%;height: 800px"
         tab-position="left">
         <el-tab-pane>
           <span style="font-size: 20px;margin-top: 10px" slot="label"><i class="el-icon-s-home"></i>首页信息</span>
-          我的行程
+          <el-row>
+            <el-col style="background: blue;height: 400px;" :span="12">
+              <div class="grid-content bg-purple"></div>
+              1
+            </el-col>
+            <el-col style="background: #FFCC33;height: 400px" :span="12">
+              <div class="grid-content bg-purple-light">2</div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col style="background: red;height: 400px" :span="12">
+              <div class="grid-content bg-purple"></div>
+              3
+            </el-col>
+            <el-col style="background: hotpink;height: 400px" :span="12">
+              <div class="grid-content bg-purple-light">4</div>
+            </el-col>
+          </el-row>
         </el-tab-pane>
         <!--        商品管理-->
         <el-tab-pane style="width: 100%">
@@ -19,7 +47,7 @@
           <div style="height:800px;width:100%">
             <el-table
               height="700"
-              :data="allGoods"
+              :data="allGoods.filter(data => !search || data.goods_name.toLowerCase().includes(search.toLowerCase()))"
               style="width:100%;height: auto;background-color: #FFCC33">
               <el-table-column
                 label="上传时间"
@@ -70,7 +98,13 @@
                   <span style="margin-left: 10px">{{ scope.row.goods_description }}</span>
                 </template>
               </el-table-column>
-              <el-table-column fixed="right" label="操作">
+              <el-table-column fixed="right">
+                <template slot="header" slot-scope="scope">
+                  <el-input
+                    v-model="search"
+                    size="mini"
+                    placeholder="输入关键字搜索"/>
+                </template>
                 <template slot-scope="scope">
                   <el-button
                     size="mini"
@@ -169,7 +203,7 @@
                   ref="goods" label-width="80px" size="medium"
                   style="border:1px solid #C4E1C5;padding:20px;">
                     <el-form-item prop="gname" label="商品名称">
-                      <el-input v-model="goodsEditInfo.gname"></el-input>
+                      <el-input placeholder="" v-model="goodsEditInfo.goods_name"></el-input>
                     </el-form-item>
                     <el-form-item label="商品图片">
 <!--                      图片上传-->
@@ -188,8 +222,11 @@
                          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                        </el-upload>
                     </el-form-item>
+                  <el-form-item label="商品库存">
+                      <el-input v-model.number="goodsEditInfo.goods_stock"></el-input>
+                    </el-form-item>
                     <el-form-item label="商品单价">
-                      <el-input v-model.number="goodsEditInfo.gprices"></el-input>
+                      <el-input v-model.number="goodsEditInfo.goods_prices"></el-input>
                     </el-form-item>
                   <el-form-item label="商品分类">
                     <el-cascader
@@ -198,7 +235,7 @@
                       @change=""></el-cascader>
                     </el-form-item>
                   <el-form-item label="商品描述">
-                      <el-input type="textarea" v-model="goodsEditInfo.gintroduce"></el-input>
+                      <el-input type="textarea" v-model="goodsEditInfo.goods_description"></el-input>
                     </el-form-item>
                   </el-form>
               </span>
@@ -216,80 +253,128 @@
 
         </el-tab-pane>
         <el-tab-pane style="width: 100%">
-          <span style="font-size: 20px" slot="label"><i class="el-icon-s-home"></i>订单管理</span>
+          <span style="font-size: 20px" @click="getYixiadan" slot="label"><i class="el-icon-s-home"></i>未处理单</span>
           <div style="height:800px;width:100%">
             <el-table
-              height="700"
-              :data="orderData"
-              style="width:100%;height: auto;background-color: #FFCC33">
+              height="780"
+              :data="yixiadan.filter(data => !search || data.goods_name.toLowerCase().includes(search.toLowerCase()))"
+              style="width: 100%">
               <el-table-column
-                label="订单编号"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                </template>
+                label="商品id"
+                prop="goods_id">
               </el-table-column>
               <el-table-column
-                label="订单时间"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                label="商品编号"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                </template>
+                label="商品名称"
+                prop="goods_name">
               </el-table-column>
               <el-table-column
                 label="商品照片"
                 width="180">
                 <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.src }}</span>
+                  <img style="margin-left: 10px;height: 100px;width: 100px" :src="scope.row.goods_photo">
                 </template>
               </el-table-column>
               <el-table-column
-                label="订单总价"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.prices }}</span>
-                </template>
+                label="商品数量"
+                prop="order_goodsnumber">
+              </el-table-column>
+              <el-table-column
+                label="收货人姓名"
+                prop="user_name">
+              </el-table-column>
+              <el-table-column
+                label="收货人电话"
+                prop="user_phone">
+              </el-table-column>
+              <el-table-column
+                label="收货人地址"
+                prop="user_address">
               </el-table-column>
               <el-table-column
                 label="订单状态"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.prices }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column fixed="right" label="操作">
-                <template slot-scope="scope">
-                  <el-button
-                    size="mini"
-                    @click="">编辑
-                  </el-button>
-                  <el-button
-                    size="mini"
-                    type="danger"
-                    @click="">删除
-                  </el-button>
-                  <el-button
-                    size="mini"
-                    type="success"
-                    @click="">设为默认
-                  </el-button>
-                </template>
+                prop="order_state">
               </el-table-column>
 
+
+              <el-table-column
+                align="right">
+                <template slot="header" slot-scope="scope">
+                  <el-input
+                    v-model="search"
+                    placeholder="输入关键字搜索"/>
+                </template>
+                <template slot-scope="scope">
+                  <el-popconfirm
+                    @confirm="Fahuo(scope.row)"
+                    title="确认发货？">
+                    <el-button
+                      slot="reference"
+                      type="primary"
+                      @click="">发货
+                    </el-button>
+                  </el-popconfirm>
+                </template>
+              </el-table-column>
             </el-table>
-            <el-button
-              style="margin: 5px"
-              icon="el-icon-circle-plus-outline"
-              type="primary">
-              添加商品
-            </el-button>
+
+          </div>
+        </el-tab-pane>
+        <el-tab-pane style="width: 100%">
+          <span style="font-size: 20px" @click="getYiyiwancheng" slot="label"><i class="el-icon-s-home"></i>已完成单</span>
+          <div style="height:800px;width:100%">
+            <el-table
+              height="780"
+              :data="yiwancheng.filter(data => !search || data.goods_name.toLowerCase().includes(search.toLowerCase()))"
+              style="width: 100%">
+              <el-table-column
+                label="商品id"
+                prop="goods_id">
+              </el-table-column>
+              <el-table-column
+                label="商品名称"
+                prop="goods_name">
+              </el-table-column>
+              <el-table-column
+                label="商品照片"
+                width="180">
+                <template slot-scope="scope">
+                  <img style="margin-left: 10px;height: 100px;width: 100px" :src="scope.row.goods_photo">
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="商品数量"
+                prop="order_goodsnumber">
+              </el-table-column>
+              <el-table-column
+                label="收货人姓名"
+                prop="user_name">
+              </el-table-column>
+              <el-table-column
+                label="收货人电话"
+                prop="user_phone">
+              </el-table-column>
+              <el-table-column
+                label="收货人地址"
+                prop="user_address">
+              </el-table-column>
+              <el-table-column
+                label="订单状态"
+                prop="order_state">
+              </el-table-column>
+
+
+              <el-table-column
+                align="right">
+                <template slot="header" slot-scope="scope">
+                  <el-input
+                    v-model="search"
+                    placeholder="输入关键字搜索"/>
+                </template>
+                <template slot-scope="scope">
+
+                </template>
+              </el-table-column>
+            </el-table>
 
           </div>
         </el-tab-pane>
@@ -305,9 +390,17 @@ export default {
   name: "StoreMain",
   data() {
     return {
+      //订单数据
+      orderData1: '',
+      orderData2: '',
+
+      //店铺信息
+      storeInfo: {},
+
       //商品修改删除
       dialogGoodsEdit: false,
 
+      search: '',
       //上传文件信息
       fileList: [],
 
@@ -319,10 +412,24 @@ export default {
       goods: {goods_photo: ''},
 
       //修改商品信息
-      goodsEditInfo: {},
+      goodsEditInfo: {
+        goods_id: '',
+        goods_name: '',
+        goods_photo: '',
+        goods_prices: '',
+        goods_lable: '',
+        goods_stock: '',
+        goods_description: ''
+      },
+
 
       //商品列表信息
       allGoods: [],
+      yixiadan: [],
+      yiwancheng: [],
+
+      //修改订单已发货
+      orderInfo: {},
 
       //商品标签分类
       value: '',
@@ -364,6 +471,59 @@ export default {
     }
   },
   methods: {
+    //发货
+    Fahuo(row) {
+      this.orderInfo.order_id = row.order_id
+      this.orderInfo.order_state = '已发货'
+      console.log("确认发货")
+      this.$http.post("http://localhost:8080/order/updateState", this.orderInfo).then(res => {
+        if (res.data == true) {
+          this.$message({
+            type: 'success',
+            message: '发货成功'
+          });
+
+          this.getYixiadan()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '发货失败'
+          });
+        }
+      })
+
+    },
+
+    //获取已下单的订单
+    getYixiadan() {
+      this.storeInfo.order_id = sessionStorage.getItem("store_id")
+      console.log(sessionStorage.getItem("store_id"))
+      console.log(this.storeInfo)
+
+      this.$http.post("http://localhost:8080/order/findYixiadanBsid", this.storeInfo).then(res => {
+        this.yixiadan = res.data
+        console.log(res.data[1])
+      })
+    },
+    getYiyiwancheng() {
+      this.storeInfo.order_id = sessionStorage.getItem("store_id")
+      console.log(sessionStorage.getItem("store_id"))
+      console.log(this.storeInfo)
+
+      this.$http.post("http://localhost:8080/order/findYiwanchengBsid", this.storeInfo).then(res => {
+        this.yiwancheng = res.data
+
+      })
+
+
+    },
+
+
+    //退出登录状态
+    out() {
+      this.$router.push("/index")
+    },
+
     //
     date() {
       var aData = new Date();
@@ -402,28 +562,31 @@ export default {
 
     // 修改商品信息
     goodsEdit(index, row) {
-      this.dialogGoodsEdit = true;
+      console.log(row.goods_name)
       this.goodsEditInfo.goods_id = row.goods_id
       this.goodsEditInfo.goods_name = row.goods_name
       this.goodsEditInfo.goods_prices = row.goods_prices
       this.goodsEditInfo.goods_stock = row.goods_stock
       this.goodsEditInfo.goods_description = row.goods_description
+      this.dialogGoodsEdit = true;
 
     },
     //修改商品提交
     submitEditGoods() {
-      this.goodsEditInfo.glable = this.valueLable.toString();
-      if (this.goodsEditInfo.gname == '' || this.goodsEditInfo.gimage == '' ||
-        this.goodsEditInfo.gprices == '' || this.goodsEditInfo.gintroduce == '' ||
-        this.goodsEditInfo.glable.length == 0) {
+      this.goodsEditInfo.goods_lable = this.valueLable.toString();
+      if (this.goodsEditInfo.goods_name == '' || this.goodsEditInfo.goods_photo == '' ||
+        this.goodsEditInfo.goods_prices == '' || this.goodsEditInfo.goods_stock == '' ||
+        this.goodsEditInfo.goods_lable.length == 0 || this.goodsEditInfo.goods_description == '') {
         this.$confirm('请填写所有内容！', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         })
       } else {
+        console.log(this.goodsEditInfo)
         //向后端发送请求
         this.$http.post('http://localhost:8080/goods/update', this.goodsEditInfo).then(res => {
+          console.log(res.data)
           if (res.data == true) {
             this.$confirm('修改成功！！', '提示', {
               confirmButtonText: '确定',
@@ -552,6 +715,8 @@ export default {
     this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
       this.allGoods = res.data
     })
+
+
   }
 
 }

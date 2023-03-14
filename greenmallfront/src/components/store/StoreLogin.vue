@@ -44,6 +44,7 @@ export default {
       this.$http.post('http://localhost:8080/store/login', this.store).then(res => {
         if (res.data.store_username == this.store.store_username) {
           sessionStorage.setItem('store_id', res.data.store_id)
+          console.log()
           this.$router.push('/store/main')
         } else {
           this.$confirm('用户名或密码错误！！', '提示', {

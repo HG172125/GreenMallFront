@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 1500px; background-color:hotpink;margin: auto">
+  <div style="width: 1500px;background:#F2F6FC;margin: auto">
 
 
     <!--        轮播图-->

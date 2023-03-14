@@ -15,16 +15,16 @@ import StoreLogin from "../components/store/StoreLogin";
 import GoodsInfo from "../components/GoodsInfo";
 import UserGoodsInfo from "../components/user/UserGoodsInfo";
 import UserJoin from "../components/user/UserJoin";
-
-
+import UserSelectGoods from "../components/user/UserSelectGoods";
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path: '/', redirect: "/user/main"},
+    {path: '/', redirect: "/user/select"},
     {path: '/index', component: Index},
     {path: '/test', component: Test},
     {path: '/user/main', component: UserMain},
+    {path: '/user/select', component: UserSelectGoods},
     {path: '/user/set', component: UserSet},
     {path: '/user/join', component: UserJoin},
     {path: '/user/goodsInfo', component: UserGoodsInfo},
