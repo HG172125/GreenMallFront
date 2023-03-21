@@ -52,7 +52,7 @@
               <div style="line-height: 100px;margin-left: 20px" class="grid-content bg-purple">
                 <el-row :gutter="20">
                   <el-col :span="4">
-                    <div class="grid-content bg-purple"><h2>热门商品</h2></div>
+                    <div class="grid-content bg-purple"><h2>商品销量</h2></div>
                   </el-col>
                   <el-col :span="20">
                     <div class="grid-content bg-purple">
@@ -63,16 +63,16 @@
                         style="width: 100%">
                         <el-table-column
                           prop="goods_id"
-                          label="id"
+                          label="商品编号"
                         >
                         </el-table-column>
                         <el-table-column
                           prop="goods_name"
-                          label="商品">
+                          label="商品名称">
                         </el-table-column>
                         <el-table-column
                           prop="goods_state"
-                          label="销量">
+                          label="商品销量">
                         </el-table-column>
                       </el-table>
                     </div>
@@ -421,7 +421,18 @@
           </div>
         </el-tab-pane>
         <el-tab-pane>
-          <span style="font-size: 20px;margin-top: 10px" slot="label"><i class="el-icon-s-home"></i>店铺信息</span>
+          <span @click="getStoreInfo" style="font-size: 20px;margin-top: 10px" slot="label"><i
+            class="el-icon-s-home"></i>店铺信息</span>
+          <el-descriptions size="medium" title="店铺信息" direction="vertical" :column="4" border>
+            <el-descriptions-item label="店铺编号">{{ this.storeInfo.store_id }}</el-descriptions-item>
+            <el-descriptions-item label="店铺名称">{{ this.storeInfo.store_name }}</el-descriptions-item>
+            <el-descriptions-item label="店铺所有人">{{ this.storeInfo.store_username }}</el-descriptions-item>
+            <el-descriptions-item label="备注">
+
+            </el-descriptions-item>
+
+          </el-descriptions>
+
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -555,6 +566,13 @@ export default {
 
   methods: {
 
+    getStoreInfo() {
+      this.storeInfo.store_id = sessionStorage.getItem("store_id")
+
+      this.$http.post('http://localhost:8080/store/findOneBySid', this.storeInfo).then(res => {
+        this.storeInfo = res.data
+      })
+    },
     //发货
     Fahuo(row) {
       this.orderInfo.order_id = row.order_id

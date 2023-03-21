@@ -1,22 +1,25 @@
 <template>
   <div id="bg">
-    <h3 style="margin-top: 10px"> 商家后台登录</h3>
+    <h1 style="margin-top: 10px">管理员登录</h1>
     <!--    登录表单-->
     <el-container>
       <div style="width: 800px;height: 500px;margin-left: 30%">
 
         <el-form ref="form" label-width="80px" size="medium"
-                 style="padding:20px">
+                 style="padding:20px;background: #F2F6FC">
           <el-form-item label="账号"
                         style="margin-top: 20%">
-            <el-input v-model="admin.adminname" placeholder="用户名"></el-input>
+            <el-input v-model="admin.admin_name" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input type="password" v-model="admin.adminpass" placeholder="输入密码"></el-input>
+            <el-input type="password" v-model="admin.admin_password" placeholder="输入密码"></el-input>
           </el-form-item>
+
+          <el-button @click="backindex">取 消</el-button>
+          <el-button type="primary" @click="adminlogin">登录</el-button>
+
         </el-form>
-        <el-button @click="backindex">取 消</el-button>
-        <el-button type="primary" @click="adminlogin">登录</el-button>
+
       </div>
     </el-container>
 
@@ -25,11 +28,13 @@
 </template>
 
 <script>
+import Footer from "../Footer";
 export default {
   name: "AdminLogin",
+  components: {Footer},
   data() {
     return {
-      admin: {adminname: '', adminpass: ''}
+      admin: {admin_name: '', admin_password: ''}
 
     }
   },
@@ -38,11 +43,14 @@ export default {
 
     //管理员登录
     adminlogin() {
-      this.$http.post('', this.admin).then(res => {
-        console.log(res.data)
-        if (res.data.sname == this.admin.adminname) {
-          console.log("true")
-          this.$router.push('/adminmain')
+
+      this.$http.post('http://localhost:8080/admin/login', this.admin).then(res => {
+        if (res.data != '') {
+          this.$message({
+            type: 'success',
+            message: '登录成功!'
+          });
+          this.$router.push('/admin/main')
         } else {
           this.$confirm('用户名或密码错误！！', '提示', {
             confirmButtonText: '确定',
