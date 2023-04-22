@@ -1,6 +1,5 @@
 <template>
   <div>
-    <a href="/showgoods2">test</a>
     <router-view/>
   </div>
 

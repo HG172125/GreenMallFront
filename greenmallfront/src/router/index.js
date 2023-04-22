@@ -37,7 +37,7 @@ export default new Router({
     {path: '/store/login', component: StoreLogin},
     {path: '/user/about', component: UserAbout},
     {path: '/index/goodsinfo', component: GoodsInfo},
-    {path: '/admin', component: AdminLogin},
+    {path: '/admin/login', component: AdminLogin},
     {path: '/admin/main', component: AdminMain},
 
 

@@ -233,9 +233,11 @@ export default {//暴露当前组件
         })
       } else {
         //  --------------------------------------------------------------------------
-        //添加用户执行
+        //注册执行
+        var aData = new Date();
+        this.user.user_time = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate() + "-" + aData.getHours();
+
         this.$http.post("http://localhost:8080/user/add", this.user).then(res => {
-          console.log(res.data)
           if (res.data == true) {
             this.$confirm('是否继续登录?', '注册成功！', {
               confirmButtonText: '登录',

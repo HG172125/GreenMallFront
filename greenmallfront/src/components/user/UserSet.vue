@@ -256,16 +256,16 @@
                       placeholder="输入关键字搜索"/>
                   </template>
                   <template slot-scope="scope">
-                    <el-popconfirm
-                      @confirm="deleteOrder(scope.row)"
-                      title="是否删除订单？">
-                      <el-button
-                        slot="reference"
-                        size="mini"
-                        type="danger"
-                        @click="">删除
-                      </el-button>
-                    </el-popconfirm>
+                    <!--                    <el-popconfirm-->
+                    <!--                      @confirm="deleteOrder(scope.row)"-->
+                    <!--                      title="是否删除订单？">-->
+                    <!--                      <el-button-->
+                    <!--                        slot="reference"-->
+                    <!--                        size="mini"-->
+                    <!--                        type="danger"-->
+                    <!--                        @click="">删除-->
+                    <!--                      </el-button>-->
+                    <!--                    </el-popconfirm>-->
                   </template>
                 </el-table-column>
               </el-table>
@@ -574,7 +574,6 @@ export default {
       this.updateGoods.goods_id = row.goods_id
       this.updateGoods.goods_stock = parseInt(row.goods_stock) - row.order_goodsnumber
       console.log(this.updateGoods.goods_stock + "=" + parseInt(row.goods_stock) + "-" + row.order_goodsnumber)
-
     },
     //输入密码 确认下单
     confirmOrder() {

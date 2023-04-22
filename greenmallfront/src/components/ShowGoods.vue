@@ -561,7 +561,6 @@ export default {
         });
       } else {
         //  添加购物车
-
         this.orderData.user_id = sessionStorage.getItem("user_id")
         this.orderData.order_goodsnumber = this.cartNumber
         this.orderData.order_state = "已加购"

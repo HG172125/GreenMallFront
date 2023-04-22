@@ -91,13 +91,13 @@
               height="700"
               :data="allGoods.filter(data => !search || data.goods_name.toLowerCase().includes(search.toLowerCase()))"
               style="width:100%;height: auto;background-color: #FFCC33">
-              <el-table-column
-                label="上传时间"
-                width="180">
-                <template slot-scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.goods_time }}</span>
-                </template>
-              </el-table-column>
+              <!--              <el-table-column-->
+              <!--                label="上传时间"-->
+              <!--                width="180">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <span style="margin-left: 10px">{{ scope.row.goods_time }}</span>-->
+              <!--                </template>-->
+              <!--              </el-table-column>-->
               <el-table-column
                 label="商品名称"
                 width="180">
@@ -140,11 +140,18 @@
                   <span style="margin-left: 10px">{{ scope.row.goods_description }}</span>
                 </template>
               </el-table-column>
+              <el-table-column
+                label="商品状态"
+                width="180">
+                <template slot-scope="scope">
+                  <span style="margin-left: 10px">{{ scope.row.goods_state }}</span>
+                </template>
+              </el-table-column>
               <el-table-column fixed="right">
                 <template slot="header" slot-scope="scope">
                   <el-input
                     v-model="search"
-                    size="mini"
+                    size="medium"
                     placeholder="输入关键字搜索"/>
                 </template>
                 <template slot-scope="scope">
@@ -160,6 +167,26 @@
                       size="mini"
                       type="danger"
                       @click="">删除
+                    </el-button>
+                  </el-popconfirm>
+                  <el-popconfirm
+                    @confirm="upGoods(scope.row)"
+                    title="确定上架本商品？">
+                    <el-button
+                      slot="reference"
+                      size="mini"
+                      type="success"
+                      @click="">上架
+                    </el-button>
+                  </el-popconfirm>
+                  <el-popconfirm
+                    @confirm="downGoods(scope.row)"
+                    title="确定下架本商品？">
+                    <el-button
+                      slot="reference"
+                      size="mini"
+                      type="danger"
+                      @click="">下架
                     </el-button>
                   </el-popconfirm>
 
@@ -428,7 +455,30 @@
             <el-descriptions-item label="店铺名称">{{ this.storeInfo.store_name }}</el-descriptions-item>
             <el-descriptions-item label="店铺所有人">{{ this.storeInfo.store_username }}</el-descriptions-item>
             <el-descriptions-item label="备注">
+              <el-dialog
+                title="修改密码"
+                :visible.sync="dialogVisible0"
+                width="30%"
+                :before-close="handleClose">
+                <span><div style="margin-bottom: 20px">
+                      <el-form ref="form" label-width="80px" size="medium"
+                               style="border:1px solid #C4E1C5;padding:20px;">
+                        <el-form-item label="新密码">
+                         <el-input type="password" v-model="newPassword" placeholder="输入密码"></el-input>
+                        </el-form-item>
+                        <el-form-item label="再次输入">
+                         <el-input type="password" v-model="uPass.store_password" placeholder="输入密码"></el-input>
+                        </el-form-item>
+                      </el-form>
+                   </div></span>
+                <span slot="footer" class="dialog-footer">
 
+
+                   <el-button @click="dialogVisible0 = false">取 消</el-button>
+                   <el-button type="primary" @click="updetePassword">修改</el-button>
+                   </span>
+              </el-dialog>
+              <el-button @click="dialogVisible0=true" type="primary" plain>修改密码</el-button>
             </el-descriptions-item>
 
           </el-descriptions>
@@ -462,6 +512,9 @@ export default {
   name: "StoreMain",
   data() {
     return {
+      uPass: {},
+      newPassword: '',
+
       //订单数据
       orderData1: '',
       orderData2: '',
@@ -479,9 +532,11 @@ export default {
       //弹窗是否可见
       dialogVisible1: false,
 
+      dialogVisible0: false,
+
 
       //添加商品信息
-      goods: {goods_photo: ''},
+      goods: {goods_photo: '', goods_description: ''},
 
       //修改商品信息
       goodsEditInfo: {
@@ -512,29 +567,60 @@ export default {
 
       options: [{
         value: '蔬菜', label: '蔬菜',
-        children: [{
-          value: '根菜类', label: '根菜类',
-          children: [{value: '萝卜', label: '萝卜'}, {value: '胡萝卜', label: '胡萝卜'}]
-        },
+        children: [
           {
-            value: '绿叶类', label: '绿叶类',
+            value: '根菜类',
+            label: '根菜类',
+            children: [{value: '萝卜', label: '萝卜'}, {value: '胡萝卜', label: '胡萝卜'}, {value: '胡萝卜', label: '胡萝卜'}]
+          },
+          {
+            value: '瓜果类',
+            label: '瓜果类',
+            children: [{value: '黄瓜', label: '黄瓜'}, {value: '丝瓜', label: '丝瓜'}, {value: '冬瓜', label: '冬瓜'}]
+          },
+          {
+            value: '菌类',
+            label: '菌类',
+            children: [{value: '香菇', label: '香菇'}, {value: '木耳', label: '木耳'}, {value: '金针菇', label: '金针菇'}]
+          },
+          {
+            value: '葱蒜类',
+            label: '葱蒜类',
+            children: [{value: '韭菜', label: '韭菜'}, {value: '大蒜', label: '大蒜'}, {value: '生姜', label: ''}]
+          },
+          {
+            value: '豆荚类',
+            label: '豆荚类',
+            children: [{value: '豌豆', label: '豌豆'}, {value: '黄豆', label: '黄豆'}, {value: '毛豆', label: '毛豆'}]
+          },
+          {value: '', label: '', children: [{value: '', label: ''}, {value: '', label: ''}, {value: '', label: ''}]},
+          {
+            value: '叶菜类',
+            label: '叶菜类',
             children: [{value: '白菜', label: '白菜'}, {value: '菠菜', label: '菠菜'}, {value: '菠菜', label: '菠菜'}]
           }]
       },
         {
           value: '水果', label: '水果',
-          children: [{
-            value: '瓜果类', label: '瓜果类',
-            children: [{value: '西瓜', label: '西瓜'}, {value: '甜瓜', label: '甜瓜'}]
-          },
+          children: [
+            {value: '瓜果类', label: '瓜果类', children: [{value: '西瓜', label: '西瓜'}, {value: '甜瓜', label: '甜瓜'}]},
+            {value: '柑橘类', label: '柑橘类', children: [{value: '柠檬', label: '柠檬'}, {value: '柑桔', label: '柑桔'}]},
             {
-              value: '柑橘类', label: '柑橘类',
-              children: [{value: '柠檬', label: '柠檬'}, {value: '柑桔', label: '柑桔'}]
+              value: '核果仁果类',
+              label: '核果仁果类',
+              children: [{value: '苹果', label: '苹果'}, {value: '菠萝', label: '菠萝'}, {value: '香蕉', label: '香蕉'}]
             },
             {
-              value: '核果仁果类', label: '核果仁果类',
-              children: [{value: '苹果', label: '苹果'}, {value: '菠萝', label: '菠萝'}, {value: '香蕉', label: '香蕉'}]
-            }
+              value: '浆果类',
+              label: '浆果类',
+              children: [{value: '葡萄', label: '葡萄'}, {value: '蓝莓', label: '蓝莓'}, {value: '草莓', label: '草莓'}]
+            },
+            {
+              value: '热带水果',
+              label: '热带水果',
+              children: [{value: '芒果', label: '芒果'}, {value: '香蕉', label: '香蕉'}, {value: '菠萝', label: '菠萝'}]
+            },
+
           ]
         }
       ],
@@ -565,12 +651,87 @@ export default {
   },
 
   methods: {
+    //上下架商品
+    upGoods(row) {
+      console.log("上架" + row.goods_id)
+
+      var goods = {goods_state: '上架', goods_id: row.goods_id}
+      this.$http.post('http://localhost:8080/goods/updateState', goods).then(res => {
+        if (res.data == true) {
+          this.$message({
+            type: 'success',
+            message: '上架成功'
+          });
+          this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res1 => {
+            this.allGoods = res1.data
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '上架失败'
+          });
+        }
+      })
+
+    },
+    downGoods(row) {
+      console.log("下架" + row.goods_id)
+
+      var goods = {goods_state: '下架', goods_id: row.goods_id}
+      this.$http.post('http://localhost:8080/goods/updateState', goods).then(res => {
+        if (res.data == true) {
+          this.$message({
+            type: 'success',
+            message: '下架成功'
+          });
+          this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res1 => {
+            this.allGoods = res1.data
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '下架失败'
+          });
+        }
+      })
+    },
+
+    //修改密码
+    updetePassword() {
+      if (this.newPassword != this.uPass.store_password) {
+        this.$confirm('两次密码不一致！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+      } else {
+        this.uPass.store_id = sessionStorage.getItem("store_id")
+        this.$http.post("http://localhost:8080/store/updatePassword", this.uPass).then(res => {
+          if (res.data == true) {
+            this.$message({
+              type: 'success',
+              message: '修改成功'
+            });
+            this.dialogVisible0 = false
+            this.uPass.store_password = ''
+            this.newPassword = ''
+          } else {
+            this.$message({
+              type: 'error',
+              message: '修改失败'
+            });
+          }
+        })
+      }
+    },
 
     getStoreInfo() {
       this.storeInfo.store_id = sessionStorage.getItem("store_id")
 
       this.$http.post('http://localhost:8080/store/findOneBySid', this.storeInfo).then(res => {
         this.storeInfo = res.data
+        console.log("-------")
+        console.log(res.data)
       })
     },
     //发货
@@ -720,6 +881,8 @@ export default {
       this.goods.goods_time = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate() + "-" + aData.getHours();
       //获取分类标签值
       this.goods.goods_lable = this.value.toString();
+
+      console.log(this.goods.goods_description)
       if (this.goods.goods_name == '' || this.goods.goods_photo == ''
         || this.goods.goods_prices == '' || this.goods.goods_description == ''
         || this.goods.goods_lable.length == 0 || this.goods.goods_stock == '') {
@@ -812,8 +975,6 @@ export default {
   },
   mounted() {
     this.goods.store_id = sessionStorage.getItem("store_id")
-    console.log("输出sid")
-    console.log(this.goods.store_id)
     this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res1 => {
       this.allGoods = res1.data
     })
@@ -828,19 +989,15 @@ export default {
     this.storeInfo.store_id = sessionStorage.getItem("store_id")
     this.$http.post("http://localhost:8080/order/findAllOrder", this.storeInfo).then(res3 => {
       this.allOrder = res3.data.order_goodsnumber
-      console.log(this.todayOrder)
     })
 
     //查询今日订单
     this.storeInfo.store_id = sessionStorage.getItem("store_id")
     this.$http.post("http://localhost:8080/order/findTodaysOrder", this.storeInfo).then(res2 => {
       this.todayOrder = res2.data.order_goodsnumber
-      console.log(this.todayOrder)
     })
     //根据store id 订单状态
     this.storeInfo.store_id = sessionStorage.getItem("store_id")
-    console.log("chaxun")
-    console.log(this.storeInfo.store_id)
 
     this.$http.post("http://localhost:8080/order/findState", this.storeInfo).then(res => {
       this.formdata = res.data
