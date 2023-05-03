@@ -911,7 +911,6 @@ export default {
             this.goods.goods_description = "";
             this.value = [];
             this.fileList = [];
-
             //重新请求数据 刷新列表
             this.goods.sid = '123'
             this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res => {
@@ -939,13 +938,12 @@ export default {
     onUploadChange(file) {
       const isIMAGE = (file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/gif');
       const isLt1M = file.size / 1024 / 1024 < 1;
-
       if (!isIMAGE) {
         this.$message.error('上传文件只能是图片格式!');
         return false;
       }
       if (!isLt1M) {
-        this.$message.error('上传文件大小不能超过 1MB!');
+        this.$message.error('上传文件大小不能超过 500kb!');
         return false;
       }
       var This = this;
@@ -974,10 +972,13 @@ export default {
     },
   },
   mounted() {
+
+    //查询店铺所有商品
     this.goods.store_id = sessionStorage.getItem("store_id")
     this.$http.post("http://localhost:8080/goods/findall", this.goods).then(res1 => {
       this.allGoods = res1.data
     })
+
     //查询热门商品
     this.storeInfo.store_id = sessionStorage.getItem("store_id")
     this.$http.post("http://localhost:8080/goods/findgoodsNumberBysid", this.storeInfo).then(res4 => {

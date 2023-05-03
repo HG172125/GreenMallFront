@@ -56,7 +56,7 @@
                        style="line-height: 2px;color: #FFCC33;text-decoration: underline">我是商户
             </el-button>
             <div>
-              <!--登录提示框-->
+              <!--登录对话框-->
               <el-dialog
                 title="请登录"
                 :visible.sync="dialogVisible1"

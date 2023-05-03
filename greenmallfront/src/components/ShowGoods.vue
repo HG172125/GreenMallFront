@@ -449,11 +449,6 @@ export default {
       this.orderData.order_state = '已下单'
       this.orderData.order_goodsnumber = this.goodsnumber
 
-      console.log(this.orderData.goods_id)
-      console.log(this.orderData.user_id)
-      console.log(this.orderData.order_goodsnumber)
-      console.log(this.orderData.order_time)
-      console.log(this.orderData.order_state)
       //验证密码 添加订单
       this.$http.post("http://localhost:8080/user/login", this.user).then(res => {
         if (res.data != '') {
@@ -483,10 +478,6 @@ export default {
               });
             }
           })
-          console.log("验证密码")
-          console.log(res.data)
-
-
         } else {
           this.$message({
             type: 'error',
@@ -500,7 +491,6 @@ export default {
 
     //跳转详情页
     toGoodsInfo(gid, sid, goods_name, goods_photo, goods_prices, goods_description, goods_stock) {
-
       sessionStorage.setItem("goods_id", gid)
       sessionStorage.setItem("store_id", sid)
       sessionStorage.setItem("goods_name", goods_name)
@@ -508,8 +498,6 @@ export default {
       sessionStorage.setItem("goods_prices", goods_prices)
       sessionStorage.setItem("goods_description", goods_description)
       sessionStorage.setItem("goods_stock", goods_stock)
-      console.log("uid")
-      console.log(sessionStorage.getItem("user_id"))
 
       if (sessionStorage.getItem("user_id") == null) {
         this.$router.push('/index/goodsinfo')
@@ -598,7 +586,6 @@ export default {
     this.$http.post("http://localhost:8080/goods/vegetableGoods").then(res => {
       this.vegetableGoods = res.data
     })
-
   }
 
 }
