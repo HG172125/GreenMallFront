@@ -12,17 +12,27 @@
           <span style="font-size: 20px">农产品</span>
         </template>
 
-        <el-submenu @click="toSelect" index="蔬菜">
+        <el-submenu index="1-1">
           <template slot="title">蔬菜</template>
-          <el-menu-item @click="toSelect" index="白菜">白菜</el-menu-item>
-          <el-menu-item @click="toSelect" index="西兰花">西兰花</el-menu-item>
+          <el-menu-item @click="toSelect" index="根菜类">根菜类</el-menu-item>
+          <el-menu-item @click="toSelect" index="瓜果类">瓜果类</el-menu-item>
+          <el-menu-item @click="toSelect" index="菌类">菌类</el-menu-item>
+          <el-menu-item @click="toSelect" index="葱蒜类">葱蒜类</el-menu-item>
+          <el-menu-item @click="toSelect" index="豆荚类">豆荚类</el-menu-item>
+          <el-menu-item @click="toSelect" index="叶菜类">叶菜类</el-menu-item>
         </el-submenu>
 
         <el-submenu index="1-2">
           <template slot="title">水果</template>
-          <el-menu-item @click="toSelect" index="苹果">苹果</el-menu-item>
-          <el-menu-item @click="toSelect" index="葡萄">葡萄</el-menu-item>
+          <el-menu-item @click="toSelect" index="瓜果类">瓜果类</el-menu-item>
+          <el-menu-item @click="toSelect" index="柑橘类">柑橘类</el-menu-item>
+          <el-menu-item @click="toSelect" index="核果仁果类">核果仁果类</el-menu-item>
+          <el-menu-item @click="toSelect" index="浆果类">浆果类</el-menu-item>
+          <el-menu-item @click="toSelect" index="热带水果">热带水果</el-menu-item>
+
+
         </el-submenu>
+
       </el-submenu>
       <el-menu-item index="/user/set" @click="toUrl"><span style="font-size: 20px">我的账户</span></el-menu-item>
       <!--      <el-menu-item index="5" @click="toUrl"><span style="font-size: 20px">购物车</span></el-menu-item>-->
@@ -49,12 +59,13 @@ export default {
     },
 
     toSelect() {
+
       sessionStorage.setItem("select", this.url)
       console.log(sessionStorage.getItem('select'))
-      this.$router.go(0)
       this.$router.push('/user/select').then((result) => {
       }).catch(reason => {
       })
+      this.$router.go(0)
     },
 //   跳转页面
     toUrl() {

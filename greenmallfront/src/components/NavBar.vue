@@ -62,10 +62,10 @@ export default {
     toSelect() {
       sessionStorage.setItem("select", this.url)
       console.log(sessionStorage.getItem('select'))
-      this.$router.go(0)
       this.$router.push('/selectgoods').then((result) => {
       }).catch(reason => {
       })
+      this.$router.go(0)
     },
 
 //   跳转页面

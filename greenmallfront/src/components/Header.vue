@@ -87,21 +87,21 @@
                 width="30%">
                 <spa>
                   <div style="margin-bottom: 20px">
-                    <el-form ref="form" label-width="80px" size="medium"
+                    <el-form :model="ruleForm1" :rules="rules1" ref="ruleForm1" label-width="80px" size="medium"
                              style="border:1px solid #C4E1C5;padding:20px;">
-                      <el-form-item label="用户名">
+                      <el-form-item label="用户名" prop="name">
                         <el-input v-model="user.user_name"></el-input>
                       </el-form-item>
-                      <el-form-item label="手机号">
+                      <el-form-item label="手机号" prop="phone">
                         <el-input v-model="user.user_phone"></el-input>
                       </el-form-item>
-                      <el-form-item label="用户地址">
+                      <el-form-item label="用户地址" prop="address">
                         <el-input v-model="user.user_address"></el-input>
                       </el-form-item>
-                      <el-form-item label="密码">
+                      <el-form-item label="密码" prop="password">
                         <el-input type="password" v-model="user.user_password"></el-input>
                       </el-form-item>
-                      <el-form-item label="重复密码">
+                      <el-form-item label="重复密码" prop="checkPassword">
                         <el-input type="password" v-model="checkPassWord"></el-input>
                       </el-form-item>
                     </el-form>

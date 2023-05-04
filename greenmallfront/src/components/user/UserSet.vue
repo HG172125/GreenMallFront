@@ -486,9 +486,7 @@ export default {
           });
         }
       })
-    }
-
-    ,
+    },
 
     //获取用户信息
     getUserInfo() {
@@ -535,6 +533,10 @@ export default {
             type: 'success',
             message: '收货成功'
           });
+          this.$http.post("http://localhost:8080/order/yiwancheng", this.user).then(rese => {
+            this.yiwancheng = rese.data
+            console.log("yiwancheng")
+          })
 
           this.$http.post("http://localhost:8080/order/yifahuo", this.user).then(reso => {
             this.yifahuo = reso.data
@@ -696,8 +698,6 @@ export default {
     this.userInfo.user_address = sessionStorage.getItem("user_address")
     this.$http.post("http://localhost:8080/order/findCart", this.user).then(res => {
       this.shopData = res.data
-      console.log(this.user)
-      console.log(res.data[1])
     })
     this.$http.post("http://localhost:8080/order/yixiadan", this.user).then(res => {
       this.yixiadan = res.data
